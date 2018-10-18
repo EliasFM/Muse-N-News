@@ -11,6 +11,15 @@ body {
     color: white;
 }
 
+#title {
+    font-size: 2em;
+    margin-top: 2em;
+}
+
+#subtitle {
+    font-size: 1em;
+}
+
 #main-content > div,
 footer {
     border: black solid 1px;
@@ -25,4 +34,14 @@ footer {
 
 footer {
     margin-top: 1em;
+}
+
+@media (min-width: 575px) {
+    #title {
+        font-size: 3em;
+    }
+
+    #subtitle {
+        font-size: 1.5em;
+    }
 }
