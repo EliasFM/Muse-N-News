@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="author" content="Yulong Tan">
@@ -7,44 +8,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>UW RSO Page Redone</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="styles/style.css">
 </head>
+
 <body>
-    <header id="header">
-        <div class="container">
-            <h1 class="uw-text">RSO Community</h1>
-            <p class="uw-text lead">Registered Student Organizations: Join the UW's Immersive Community!</p>
-            <div id="nav">
-                <ul class="nav nav-tabs nav-fill">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#">Aerolens</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Directory</a>
+                        <a class="nav-link" href="#">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Events</a>
+                        <a class="nav-link" href="#">Music</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Forum</a>
+                        <a class="nav-link" href="#">Movies</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Links</a>
+                        <a class="nav-link" href="#">Books</a>
                     </li>
                 </ul>
+                <form class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
-        </div>
+        </nav>
     </header>
 
     <main>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-xl-2 d-flex">
-                    
+        <div id="header" class="jumbotron jumboron-fluid">
+            <div class="container">
+                <h1 class="display-3 title">Looking for entertainment?</h1>
+                <p class="lead title">Find music, movies, books, and more of your favorite genre.</p>
+            </div>
+        </div>
+        <div id="main-content">
+            <div class="container">
+                <div id="misson-statement">
+                    <h2>Our mission</h2>
+                    <p>Aerolens is about helping you find content that you might enjoy. We take your genre
+                        preferences, run it through our survey program, and try to match you with recommended
+                        media. Imagine feeling bored on a Friday night because your friends didn't make any plans.
+                        Maybe we'll recommend <cite>Jack London's Call of the Wild</cite>, or the ever so thrilling
+                        Infinity War, by <cite>Marvel Studios</cite>.</p>
+                </div>
+                <div id="featured">
+                    <h2>Today's Featured Choices</h2>
+                    <div class="row">
+                        <!-- Item 1 -->
+                        <div class="col-md-6 col-xs-3 d-flex">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="col-sm-auto">
+                                        <img class="pb-3" src="img/infinity-war-movie-poster.jpg" alt="Infinity War Movie Poster">
+                                    </div>
+                                    <div class="col-sm">
+                                        <h3 class="card-title">Avengers: Infinity War</h3>
+                                        <p class="card-text">Type: Movie</p>
+                                        <p class="card-text">The thrilling sequel to Avengers: Age of Ultron. Watch as
+                                            Earth's Greatest Heroes defend against Thanos, the Mad Titan.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="col-md-6 col-xs-3 d-flex">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="col-sm-auto">
+                                        <img class="pb-3" src="img/tswift-red-album.png" alt="Taylor Swift Red Album ">
+                                    </div>
+                                    <div class="col-sm">
+                                        <h3 class="card-title">All Too Well</h3>
+                                        <p class="card-text">Type: Song</p>
+                                        <p class="card-text">Enjoy a sad listen and jam to the legendary,
+                                            ground-breaking Red album, by <cite>Taylor Swift</cite>. This album came
+                                            out in 2012 and
+                                            sold over a million copies in one week.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="col-md-6 col-xs-3 d-flex">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="col-sm-auto">
+                                        <img class="pb-3" src="img/perks-of-being-a-wallflower.jpg" alt="The Perks of Being a Wallflower">
+                                    </div>
+                                    <div class="col-sm">
+                                        <h3 class="card-title">The Perks of Being a Wallflower</h3>
+                                        <p class="card-text">Type: Book</p>
+                                        <p class="card-text">This inspiring book was written by <cite>Stephen Chbosky</cite>
+                                            in 1999 and follows Charlie, an introverted teenager, through his freshman
+                                            year of high school in a Pittsburgh suburb.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 4 -->
+                        <div class="col-md-6 col-xs-3 d-flex">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="col-sm-auto">
+                                            <img class="pb-3" src="img/esheeran-divide.png" alt="Ed Sheeran Divide Album">
+                                        </div>
+                                        <div class="col-sm">
+                                            <h3 class="card-title">Perfect</h3>
+                                            <p class="card-text">Type: Song</p>
+                                            <p class="card-text">Perfect is a song by singer-songwriter <cite>Ed Sheeran</cite>, from the album Divide, which was released March of 2017. <em>Darling you look perfect, tonight.</em></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 </body>
+
 </html>
