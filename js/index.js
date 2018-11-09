@@ -97,6 +97,7 @@ class Card {
               </cite>
             </p>
             <p class="card-text">Description: ${this.handleMissingError(this.iTunesObject.longDescription)}</p>
+            <div class="btn btn-success favorites">Add to favorites</div>
           </div>
         </div>
       </div>
@@ -112,10 +113,10 @@ class Service {
     let url = `https://itunes.apple.com/search?entity=${entity}&term=${searchTerm}&limit=${limit}`;
 
     this.togglerSpinner();
-    return fetch(url).then(function (res) {
+    return fetch(url).then((res) => {
       console.log(res);
       return res.json();
-    }).then(function (data) {
+    }).then((data) => {
       //console.log(data);
       let $row = $('div.row');
       $row.html('');
@@ -124,11 +125,22 @@ class Service {
         let subCard = $('.card.mb-4');
         subCard.css('width', subCard.parent().width());
         $row.append(card);
+        card.find('.col-sm').children('.favorites').on('click', this.addToFavorites);
       });
     }).catch(function (err) {
       // console.log(err);
       new Modal(1, 'Error', err, null).render();
     }).then(this.togglerSpinner);
+  }
+
+  addToFavorites() {
+    let $cardElement = $(this).parents('.col-md-6.col-xs-3');
+    let favObj = {
+      card: $cardElement,
+      id: state.favorites.length + 1
+    };
+    state.favorites.push(favObj);
+    console.log(state.favorites.length);
   }
 
   togglerSpinner() {
@@ -262,6 +274,10 @@ class App {
     this.parentElement.append(mainContent);
     this.parentElement.append($(`<div class="modalContainer">`));
   }
+}
+
+const state = {
+  favorites: [],
 }
 
 let app = new App($('#app'), 'Looking for entertainment?', 'Find music, movies, books, and more of your favorite genre.', 'featured');
