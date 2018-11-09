@@ -52,6 +52,30 @@ class Card {
     return obj == undefined ? 'Not available' : obj;
   }
 
+  resolveType(obj) {
+    if (obj.wrapperType == 'audiobook') {
+      return obj.wrapperType;
+    } else {
+      return obj.kind;
+    }
+  }
+
+  resolveName(obj) {
+    if (obj.wrapperType == 'audiobook') {
+      return obj.collectionName;
+    } else {
+      return obj.trackName;
+    }
+  }
+
+  resolveUrl(obj) {
+    if (obj.wrapperType == 'audiobook') {
+      return obj.collectionViewUrl;
+    } else {
+      return obj.trackViewUrl;
+    }
+  }
+
   render() {
 
     let $card = $(
@@ -59,13 +83,13 @@ class Card {
       <div class="card mb-4">
         <div class="card-body">
           <div class="col-sm-auto">
-            <img class="pb-3" src="${this.handleMissingError(this.iTunesObject.artworkUrl100)}" alt="${this.handleMissingError(this.iTunesObject.trackName)}">
+            <img class="pb-3" src="${this.handleMissingError(this.iTunesObject.artworkUrl100)}" alt="${this.resolveName(this.iTunesObject)}">
           </div>
           <div class="col-sm">
             <h3 class="card-title">
-              <a href="${this.handleMissingError(this.iTunesObject.trackViewUrl)}" target="_blank"> ${this.handleMissingError(this.iTunesObject.trackName)} </a>
+              <a href="${this.resolveUrl(this.iTunesObject)}" target="_blank"> ${this.resolveName(this.iTunesObject)} </a>
             </h3>
-            <p class="card-text">Type: ${this.handleMissingError(this.iTunesObject.kind)}</p>
+            <p class="card-text">Type: ${this.resolveType(this.iTunesObject)}</p>
             <p class="card-text">Genre: ${this.handleMissingError(this.iTunesObject.primaryGenreName)}</p>
             <p class="card-text">
               <cite>
@@ -114,10 +138,8 @@ class Service {
     let $button = $('#search-button');
     $button.toggleClass('disabled');
     if ($button.hasClass('disabled')) {
-      console.log('is disabled');
       $button.prop('disabled', true);
     } else {
-      console.log('is enabled');
       $button.prop('disabled', false);
     }
   }
