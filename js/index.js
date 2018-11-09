@@ -87,24 +87,39 @@ class Service {
   getResults(entity, searchTerm, limit = 25) {
     let url = `https://itunes.apple.com/search?entity=${entity}&term=${searchTerm}&limit=${limit}`;
 
-
     this.togglerSpinner();
     return fetch(url).then(function (res) {
+      console.log(res);
       return res.json();
     }).then(function (data) {
+      //console.log(data);
+      let $row = $('div.row');
+      $row.html('');
       data.results.forEach((res) => {
         let card = new Card(res).render();
         let subCard = $('.card.mb-4');
         subCard.css('width', subCard.parent().width());
-        $('div.row').append(card);
+        $row.append(card);
       });
     }).catch(function (err) {
-      console.log(err);
+      // console.log(err);
+      new Modal(1, 'Error', err, null).render();
     }).then(this.togglerSpinner);
   }
 
   togglerSpinner() {
     $('.fa-spinner').toggleClass('d-none');
+    
+    // Disables button during search
+    let $button = $('#search-button');
+    $button.toggleClass('disabled');
+    if ($button.hasClass('disabled')) {
+      console.log('is disabled');
+      $button.prop('disabled', true);
+    } else {
+      console.log('is enabled');
+      $button.prop('disabled', false);
+    }
   }
 }
 
@@ -161,7 +176,7 @@ class Modal {
 
       $modalFooterButton.prop({
         type: 'button',
-        class: 'btn btn-default',
+        class: 'btn btn-danger',
       });
       $modalFooterButton.data('dismiss', 'modal');
       $modalFooterButton.html('Close');
@@ -232,3 +247,21 @@ app.render();
 
 let service = new Service();
 service.getResults('song', 'taylor swift');
+
+let $searchButton = $('#search-button');
+let $input = $('#search-input');
+
+$searchButton.on('click', (event) => {
+  event.preventDefault();
+  if ($input.val().length == 0) {
+    new Modal(1, 'Error', 'Input cannot be empty', () => {
+      $input.val('');
+    }).render();
+  } else {
+    let entity = $('#entity-select').val();
+    let query = $input.val();
+    console.log(`select: ${$('#entity-select').val()}`);
+    console.log(`input: ${$input.val()}`);
+    service.getResults(entity, query);
+  }
+});
