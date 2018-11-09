@@ -35,5 +35,8 @@
         "error"
       ]
     }
+  },
+  "dependencies": {
+    "node-fetch": "^2.2.1"
   }
 }
