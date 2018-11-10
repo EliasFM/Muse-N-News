@@ -219,7 +219,7 @@ class Service {
       new CardList(state.featured).render();
     }).catch((err) => {
       console.log(err);
-      new Modal(1, 'Error', err, null).render();
+      new Modal(1, 'Error', 'Unable to request from iTunes. Try a different query.', null).render();
     }).then(this.togglerSpinner);
   }
 
