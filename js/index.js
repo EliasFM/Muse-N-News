@@ -112,14 +112,29 @@ class CardList {
   }
 
   render() {
+    console.log('render called');
+    console.log(this.cardObjects.length);
     let $row = $('div.row');
     $row.html('');
+    //console.log(JSON.stringify(this.cardObjects, null, 2));
     this.cardObjects.forEach((cardObject) => {
       let card = new Card(cardObject.card).render();
 
       let $button = $(`<div class="btn btn-success favorite">Add to favorites!</div>`);
       $button.attr('id', cardObject.id);
-      $button.on('click', this.toggleFavorites);
+      $button.on('click', event => this.toggleFavorites(event)).bind(this);
+
+      this.toggleButtonState(cardObject.faved, $button);
+      // if (cardObject.faved) {
+      //   console.log('is faved');
+      //   $button.text('Remove from favorites');
+      //   $button.removeClass('btn-success');
+      //   $button.addClass('btn-danger');
+      // } else {
+      //   $button.text('Add to favorites');
+      //   $button.removeClass('btn-danger');
+      //   $button.addClass('btn-success');
+      // }
 
       card.find('.col-sm').append($button);
       $row.append(card);
@@ -128,33 +143,65 @@ class CardList {
     subCard.css('width', subCard.parent().width());
   }
 
-  toggleFavorites() {
-    console.log(`id: ${$(this).attr('id')}`);
+  toggleFavorites(event) {
+    let button = $(event.currentTarget);
+    console.log(`id: ${button.attr('id')}`);
     // Remove from favorites
-    let isFaved = $(this).hasClass('favorites-true');
-    let id = $(this).attr('id');
+    let isFaved = button.hasClass('favorites-true');
+    let id = button.attr('id');
     if (isFaved) {
       state.favorites = state.favorites.filter((cardObj) => {
         return cardObj.id != id;
       });
-      $(this).text('Add to favorites');
-      $(this).removeClass('btn-danger');
-      $(this).addClass('btn-success');
+      state.featured[id - 1].faved = false;
+
+      // button.text('Add to favorites');
+      // button.removeClass('btn-danger');
+      // button.addClass('btn-success');
+      this.toggleButtonState(false, button);
+      if ($('li.active').children('a').text() == 'Favorites') {
+        new CardList(state.favorites).render();
+      } else {
+        this.render();
+      }
+      
     } else {
       let favObj = {
         card: state.featured[id - 1].card,
         id: id,
         faved: true,
+        type: 'fav'
       };
+      state.featured[id - 1].faved = true;
       state.favorites.push(favObj);
-      $(this).text('Remove from favorites');
-      $(this).removeClass('btn-success');
-      $(this).addClass('btn-danger');
+
+      // button.text('Remove from favorites');
+      // button.removeClass('btn-success');
+      // button.addClass('btn-danger');
+
+      this.toggleButtonState(true, button);
+      this.render();
     }
-    $(this).toggleClass('favorites-true');
-    console.log('\nfavorites');
-    //console.log(JSON.stringify(state.favorites, null, 2));
+    
+
+    // console.log('\nfavorites');
+    // console.log(JSON.stringify(state.favorites, null, 2));
     console.log(state.favorites.length);
+    //this.render();
+  }
+
+  toggleButtonState(faved, button) {
+    if (faved) {
+      button.text('Remove from favorites');
+      button.removeClass('btn-success');
+      button.addClass('favorites-true');
+      button.addClass('btn-danger');
+    } else {
+      button.text('Add to favorites');
+      button.removeClass('btn-danger');
+      button.removeClass('favorites-true');
+      button.addClass('btn-success');
+    }
   }
 }
 
@@ -331,8 +378,10 @@ const state = {
   counter: 0
 }
 
-let app = new App($('#app'), 'Looking for entertainment?', 'Find music, movies, books, and more of your favorite genre.', 'featured');
+let app = new App($('#app'), 'Looking for entertainment?', 'Find music, movies, books, and more of your favorite genre.', 'Featured');
 app.render();
+
+let favorites = new App($('#app'), 'Looking for entertainment?', 'Here are your favorites.', 'Favorites');
 
 let service = new Service();
 service.getResults('song', 'taylor swift');
@@ -355,10 +404,25 @@ $searchButton.on('click', (event) => {
   }
 });
 
+$('li.nav-item').on('click', function () {
+  $(this).siblings().removeClass('active');
+  $(this).addClass('active');
+  let text = $(this).children('a').text();
+  if (text == 'Favorites') {
+    console.log('inside favs');
+    showFavorites();
+  } else {
+    console.log('inside featured');
+    showFeatured();
+  }
+});
+
 function showFavorites() {
+  favorites.render();
   new CardList(state.favorites).render();
 }
 
 function showFeatured() {
+  app.render();
   new CardList(state.featured).render();
 }
