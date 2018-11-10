@@ -116,7 +116,6 @@ class CardList {
   }
 
   render() {
-    console.log('render called');
     let $row = $('div.row');
     $row.html('');
     this.cardObjects.forEach((cardObject) => {
@@ -137,7 +136,6 @@ class CardList {
 
   toggleFavorites(event) {
     let button = $(event.currentTarget);
-    console.log(`id: ${button.attr('id')}`);
     // Remove from favorites
     let isFaved = button.hasClass('favorites-true');
     let id = button.attr('id');
@@ -163,20 +161,15 @@ class CardList {
 
     } else {
       let card = state.featured.find((c) => {
-        console.log(`c.id: ${c.id}`);
-        console.log(`id: ${id}`);
         return c.id == id;
       });
-      console.log(JSON.stringify(card, null, 2));
       let favObj = {
         card: card.card,
         id: id,
         faved: true,
         type: 'fav'
       };
-      console.log(state.featured.length);
       let index = state.featured.indexOf(card);
-      console.log(index);
       state.featured[index].faved = true;
       state.favorites.push(favObj);
 
@@ -208,15 +201,10 @@ class Service {
 
     this.togglerSpinner();
     return fetch(url).then((res) => {
-      //console.log(res);
       return res.json();
     }).then((data) => {
-      console.log(data);
-      // TODO: Load the results into the state, and have a different function render the results
-
       // clear the objects in featured
       state.featured = [];
-
       data.results.forEach((res) => {
         let obj = {
           card: res,
@@ -261,7 +249,6 @@ class Modal {
   render() {
     // Only create if it doesnt exist
     if ($(`#${this.id}`).length === 0) {
-      console.log('test');
       let $modalContainer = $('.modalContainer');
 
       // Create
@@ -396,8 +383,6 @@ $searchButton.on('click', (event) => {
   } else {
     let entity = $('#entity-select').val();
     let query = $input.val();
-    console.log(`select: ${$('#entity-select').val()}`);
-    console.log(`input: ${$input.val()}`);
     service.getResults(entity, query);
   }
 });
@@ -407,10 +392,8 @@ $('li.nav-item').on('click', function () {
   $(this).addClass('active');
   let text = $(this).children('a').text();
   if (text == 'Favorites') {
-    console.log('inside favs');
     showFavorites();
   } else {
-    console.log('inside featured');
     showFeatured();
   }
 });
