@@ -113,10 +113,8 @@ class CardList {
 
   render() {
     console.log('render called');
-    console.log(this.cardObjects.length);
     let $row = $('div.row');
     $row.html('');
-    //console.log(JSON.stringify(this.cardObjects, null, 2));
     this.cardObjects.forEach((cardObject) => {
       let card = new Card(cardObject.card).render();
 
@@ -125,16 +123,6 @@ class CardList {
       $button.on('click', event => this.toggleFavorites(event)).bind(this);
 
       this.toggleButtonState(cardObject.faved, $button);
-      // if (cardObject.faved) {
-      //   console.log('is faved');
-      //   $button.text('Remove from favorites');
-      //   $button.removeClass('btn-success');
-      //   $button.addClass('btn-danger');
-      // } else {
-      //   $button.text('Add to favorites');
-      //   $button.removeClass('btn-danger');
-      //   $button.addClass('btn-success');
-      // }
 
       card.find('.col-sm').append($button);
       $row.append(card);
@@ -153,41 +141,44 @@ class CardList {
       state.favorites = state.favorites.filter((cardObj) => {
         return cardObj.id != id;
       });
-      state.featured[id - 1].faved = false;
+      let card = state.featured.find((c) => {
+        return c.id == id;
+      });
+      let index = state.featured.indexOf(card);
 
-      // button.text('Add to favorites');
-      // button.removeClass('btn-danger');
-      // button.addClass('btn-success');
+      // Check if media is still there
+      if (state.featured[index] !== undefined) {
+        state.featured[index].faved = false;
+      }
       this.toggleButtonState(false, button);
       if ($('li.active').children('a').text() == 'Favorites') {
         new CardList(state.favorites).render();
       } else {
         this.render();
       }
-      
+
     } else {
+      let card = state.featured.find((c) => {
+        console.log(`c.id: ${c.id}`);
+        console.log(`id: ${id}`);
+        return c.id == id;
+      });
+      console.log(JSON.stringify(card, null, 2));
       let favObj = {
-        card: state.featured[id - 1].card,
+        card: card.card,
         id: id,
         faved: true,
         type: 'fav'
       };
-      state.featured[id - 1].faved = true;
+      console.log(state.featured.length);
+      let index = state.featured.indexOf(card);
+      console.log(index);
+      state.featured[index].faved = true;
       state.favorites.push(favObj);
-
-      // button.text('Remove from favorites');
-      // button.removeClass('btn-success');
-      // button.addClass('btn-danger');
 
       this.toggleButtonState(true, button);
       this.render();
     }
-    
-
-    // console.log('\nfavorites');
-    // console.log(JSON.stringify(state.favorites, null, 2));
-    console.log(state.favorites.length);
-    //this.render();
   }
 
   toggleButtonState(faved, button) {
@@ -234,7 +225,7 @@ class Service {
       // render the featured cards
       new CardList(state.featured).render();
     }).catch((err) => {
-      // console.log(err);
+      console.log(err);
       new Modal(1, 'Error', err, null).render();
     }).then(this.togglerSpinner);
   }
@@ -384,7 +375,7 @@ app.render();
 let favorites = new App($('#app'), 'Looking for entertainment?', 'Here are your favorites.', 'Favorites');
 
 let service = new Service();
-service.getResults('song', 'taylor swift');
+service.getResults('song', 'pop', 50);
 
 let $searchButton = $('#search-button');
 let $input = $('#search-input');
