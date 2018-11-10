@@ -1,5 +1,6 @@
 'use strict';
 
+// Handles the header
 class Header {
 
   constructor(title, subtitle) {
@@ -21,6 +22,7 @@ class Header {
   }
 }
 
+// Handles the content
 class Content {
 
   constructor(title) {
@@ -42,6 +44,7 @@ class Content {
   }
 }
 
+// Renders cards from json
 class Card {
 
   constructor(iTunesObject) {
@@ -106,6 +109,7 @@ class Card {
   }
 }
 
+// Populates the content with cards
 class CardList {
   constructor(cardObjects) {
     this.cardObjects = cardObjects;
@@ -196,6 +200,7 @@ class CardList {
   }
 }
 
+// Makes HTTP requests to iTunes
 class Service {
 
   getResults(entity, searchTerm, limit = 25) {
@@ -244,6 +249,7 @@ class Service {
   }
 }
 
+// Modal handles popups in an elegant way to alert users of errors
 class Modal {
   constructor(id, title, body, callback) {
     this.id = id;
@@ -341,6 +347,7 @@ class Modal {
   }
 }
 
+// Main app for the web app
 class App {
 
   constructor(parentElement, title, subtitle, contentTitle) {
