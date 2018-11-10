@@ -36,6 +36,10 @@ footer {
     margin-top: 1em;
 }
 
+.nav-item {
+    cursor: pointer;
+}
+
 @media (min-width: 575px) {
     #title {
         font-size: 3em;

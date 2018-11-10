@@ -137,10 +137,14 @@ class Service {
     let $cardElement = $(this).parents('.col-md-6.col-xs-3');
     let favObj = {
       card: $cardElement,
-      id: state.favorites.length + 1
+      id: state.favorites.length + 1,
+      added: true,
     };
     state.favorites.push(favObj);
-    console.log(state.favorites.length);
+    $(this).prop('disabled', true);
+    $(this).text('Added to favorites!');
+    $(this).removeClass('btn-success');
+    $(this).addClass('btn-secondary');
   }
 
   togglerSpinner() {
@@ -278,6 +282,7 @@ class App {
 
 const state = {
   favorites: [],
+  featured: []
 }
 
 let app = new App($('#app'), 'Looking for entertainment?', 'Find music, movies, books, and more of your favorite genre.', 'featured');
