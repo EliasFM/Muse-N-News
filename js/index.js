@@ -368,8 +368,9 @@ app.render();
 
 let favorites = new App($('#app'), 'Looking for entertainment?', 'Here are your favorites.', 'Favorites');
 
+// Initialize with this call
 let service = new Service();
-service.getResults('song', 'pop', 50);
+service.getResults('song', 'pop', 40);
 
 let $searchButton = $('#search-button');
 let $input = $('#search-input');
