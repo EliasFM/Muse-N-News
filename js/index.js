@@ -97,13 +97,64 @@ class Card {
               </cite>
             </p>
             <p class="card-text">Description: ${this.handleMissingError(this.iTunesObject.longDescription)}</p>
-            <div class="btn btn-success favorites">Add to favorites</div>
           </div>
         </div>
       </div>
     </div>`);
 
     return $card;
+  }
+}
+
+class CardList {
+  constructor(cardObjects) {
+    this.cardObjects = cardObjects;
+  }
+
+  render() {
+    let $row = $('div.row');
+    $row.html('');
+    this.cardObjects.forEach((cardObject) => {
+      let card = new Card(cardObject.card).render();
+
+      let $button = $(`<div class="btn btn-success favorite">Add to favorites!</div>`);
+      $button.attr('id', cardObject.id);
+      $button.on('click', this.toggleFavorites);
+
+      card.find('.col-sm').append($button);
+      $row.append(card);
+    });
+    let subCard = $('.card.mb-4');
+    subCard.css('width', subCard.parent().width());
+  }
+
+  toggleFavorites() {
+    console.log(`id: ${$(this).attr('id')}`);
+    // Remove from favorites
+    let isFaved = $(this).hasClass('favorites-true');
+    let id = $(this).attr('id');
+    if (isFaved) {
+      state.favorites = state.favorites.filter((cardObj) => {
+        return cardObj.id != id;
+      });
+      $(this).text('Add to favorites');
+      $(this).removeClass('btn-danger');
+      $(this).addClass('btn-success');
+    } else {
+      let favObj = {
+        card: state.featured[id - 1].card,
+        id: id,
+        faved: true,
+      };
+      state.favorites.push(favObj);
+      $(this).text('Remove from favorites');
+      $(this).removeClass('btn-success');
+      $(this).addClass('btn-danger');
+    }
+    $(this).toggleClass('favorites-true');
+    console.log('\nfavorites');
+    //console.log(JSON.stringify(state.favorites, null, 2));
+    console.log(state.favorites.length);
   }
 }
 
@@ -114,42 +165,36 @@ class Service {
 
     this.togglerSpinner();
     return fetch(url).then((res) => {
-      console.log(res);
+      //console.log(res);
       return res.json();
     }).then((data) => {
-      //console.log(data);
-      let $row = $('div.row');
-      $row.html('');
+      console.log(data);
+      // TODO: Load the results into the state, and have a different function render the results
+
+      // clear the objects in featured
+      state.featured = [];
+
       data.results.forEach((res) => {
-        let card = new Card(res).render();
-        let subCard = $('.card.mb-4');
-        subCard.css('width', subCard.parent().width());
-        $row.append(card);
-        card.find('.col-sm').children('.favorites').on('click', this.addToFavorites);
+        let obj = {
+          card: res,
+          id: state.counter + 1,
+          faved: false,
+        };
+        state.counter++;
+        state.featured.push(obj);
       });
-    }).catch(function (err) {
+
+      // render the featured cards
+      new CardList(state.featured).render();
+    }).catch((err) => {
       // console.log(err);
       new Modal(1, 'Error', err, null).render();
     }).then(this.togglerSpinner);
   }
 
-  addToFavorites() {
-    let $cardElement = $(this).parents('.col-md-6.col-xs-3');
-    let favObj = {
-      card: $cardElement,
-      id: state.favorites.length + 1,
-      added: true,
-    };
-    state.favorites.push(favObj);
-    $(this).prop('disabled', true);
-    $(this).text('Added to favorites!');
-    $(this).removeClass('btn-success');
-    $(this).addClass('btn-secondary');
-  }
-
   togglerSpinner() {
     $('.fa-spinner').toggleClass('d-none');
-    
+
     // Disables button during search
     let $button = $('#search-button');
     $button.toggleClass('disabled');
@@ -282,7 +327,8 @@ class App {
 
 const state = {
   favorites: [],
-  featured: []
+  featured: [],
+  counter: 0
 }
 
 let app = new App($('#app'), 'Looking for entertainment?', 'Find music, movies, books, and more of your favorite genre.', 'featured');
@@ -308,3 +354,11 @@ $searchButton.on('click', (event) => {
     service.getResults(entity, query);
   }
 });
+
+function showFavorites() {
+  new CardList(state.favorites).render();
+}
+
+function showFeatured() {
+  new CardList(state.featured).render();
+}
