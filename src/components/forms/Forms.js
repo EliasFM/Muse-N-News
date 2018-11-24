@@ -12,8 +12,10 @@ class NavForm extends Component {
   constructor(props) {
     super(props);
     this.changeValue = this.changeValue.bind(this);
+    this.search = this.search.bind(this);
+    // TODO: Look for a better way to default this value rather than hard coding
     this.state = {
-      currentOption: ''
+      currentOption: 'music',
     };
   }
 
@@ -24,7 +26,18 @@ class NavForm extends Component {
     });
   }
 
+  // Make the request to search
+  search() {
+    this.props.searchCallback(this.state.currentOption)
+  }
+
   render() {
+    let loader = <i className='d-none fa fa-spinner fa-spin fa-fw'
+    aria-hidden='true' />;
+    if (this.props.isLoading) {
+      loader = <i className='fa fa-spinner fa-spin fa-fw'
+      aria-hidden='true' />
+    }
     return (
       <Form>
         <div className="form-row">
@@ -44,9 +57,8 @@ class NavForm extends Component {
             <Input id="search-input" className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
           </div>
           <div className="col">
-            <Button id="search-button" outline color='success' className="my-2 my-sm-0">
-              <i className="d-none fa fa-spinner fa-spin fa-fw"
-              aria-hidden="true"></i>Search
+            <Button onClick={this.search} id="search-button" outline color='success' className="my-2 my-sm-0">
+              {loader}Search
             </Button>
           </div>
         </div>
