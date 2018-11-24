@@ -3,7 +3,7 @@ const SongObject = (obj) => {
     id: obj.trackId,
     album: obj.collectionName,
     artistName: obj.artistName,
-    artistUrl: obj.artistPreviewUrl,
+    artistUrl: obj.artistViewUrl,
     country: obj.country,
     genre: obj.primaryGenreName,
     image: obj.artworkUrl100,
@@ -16,4 +16,4 @@ const SongObject = (obj) => {
   }
 };
 
-export default SongObject;
+export { SongObject };

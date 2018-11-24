@@ -2,7 +2,7 @@ const AudioBookObject = (obj) => {
   return {
     id: obj.collectionId,
     artistName: obj.artistName,
-    artistUrl: obj.artistPreviewUrl,
+    artistUrl: obj.artistViewUrl,
     country: obj.country,
     description: obj.description,
     genre: obj.primaryGenreName,
@@ -16,4 +16,4 @@ const AudioBookObject = (obj) => {
   }
 };
 
-export default AudioBookObject;
+export { AudioBookObject };

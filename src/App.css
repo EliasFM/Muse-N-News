@@ -11,6 +11,10 @@ body {
     color: white;
 }
 
+.card.mb-4 {
+    width: 100%;
+}
+
 #title {
     font-size: 2em;
     margin-top: 2em;

@@ -15,20 +15,21 @@ class NavForm extends Component {
     this.search = this.search.bind(this);
     // TODO: Look for a better way to default this value rather than hard coding
     this.state = {
-      currentOption: 'music',
+      option: 'song',
     };
   }
 
   // Sets the option value from the select
   changeValue(event) {
     this.setState({
-      currentOption: event.target.value
+      option: event.target.value
     });
   }
 
   // Make the request to search
   search() {
-    this.props.searchCallback(this.state.currentOption)
+    let searchTerm = document.querySelector('#search-input').value;
+    this.props.searchCallback(this.state.option, searchTerm);
   }
 
   render() {
