@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import {HeaderY} from './headers/Headers';
+import { HeaderY } from './components/headers/Headers';
+import { FixedNavBar } from './components/navbars/Navbars';
+import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <HeaderY title='Looking for entertainment?' subtitle='Find music, movies, books, and more of your favorite genre.' />
+      <div>
+        <FixedNavBar />
+        <HeaderY title='Looking for entertainment?' subtitle='Find music, movies, books, and more of your favorite genre.' />
+      </div>
     )
   }
 }

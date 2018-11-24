@@ -7,10 +7,10 @@ class HeaderY extends Component {
     let subtitle = this.props.subtitle;
     return (
       <div>
-        <Jumbotron fluid>
+        <Jumbotron id='header' fluid>
           <Container fluid>
-            <h1 className="display-3 title">{title}</h1>
-            <p className="lead title">{subtitle}</p>
+            <h1 id='title' className="display-3 title">{title}</h1>
+            <p id='subtitle' className="lead title">{subtitle}</p>
           </Container>
         </Jumbotron>
       </div>

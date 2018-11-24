@@ -1,0 +1,52 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-image: url('../src/img/media-wallpaper.jpeg');
+}
+
+#header {
+    background-image: url('../src/img/stars.jpg');
+}
+
+.title {
+    color: white;
+}
+
+#title {
+    font-size: 2em;
+    margin-top: 2em;
+}
+
+#subtitle {
+    font-size: 1em;
+}
+
+#main-content > div,
+footer {
+    border: black solid 1px;
+    border-radius: 5px;
+    background-color: white;
+    padding: 3%;
+}
+
+.content-title {
+    margin-bottom: 1em;
+}
+
+footer {
+    margin-top: 1em;
+}
+
+.nav-item {
+    cursor: pointer;
+    color: white;
+}
+
+@media (min-width: 575px) {
+    #title {
+        font-size: 3em;
+    }
+
+    #subtitle {
+        font-size: 1.5em;
+    }
+}
