@@ -7,6 +7,7 @@ const SongObject = (obj) => {
     country: obj.country,
     genre: obj.primaryGenreName,
     image: obj.artworkUrl100,
+    isFavorite: obj.isFavorite,
     mediaType: obj.kind,
     previewUrl: obj.previewUrl,
     releaseDate: obj.releaseDate.substring(0, 10),

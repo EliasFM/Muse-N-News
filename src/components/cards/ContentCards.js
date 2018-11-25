@@ -8,9 +8,22 @@ import {
 } from 'reactstrap';
 
 class ContentCard extends Component {
+  constructor(props) {
+    super(props);
+    this.handleFavorites = this.handleFavorites.bind(this);
+  }
+
+  handleFavorites = () => {
+    this.props.handleFavorites(this.props.obj.id);
+  }
+
   render() {
     let obj = this.props.obj;
     let card;
+    let button = <Button color='btn btn-success' onClick={this.handleFavorites}>Add to favorites</Button>;
+    if (obj.isFavorite) {
+      button = <Button color='btn btn-danger' onClick={this.handleFavorites}>Remove from favorites</Button>
+    }
     if (obj.mediaType == 'song') {
       card = (
         <Card className='mb-4'>
@@ -30,7 +43,7 @@ class ContentCard extends Component {
                   <a href={obj.artistUrl} target='_blank' rel='noopener noreferrer'>{obj.artistName}</a> {obj.releaseDate} {obj.country}
                 </cite>
               </CardText>
-              <Button color='btn btn-success'>Add to favorites</Button>
+              {button}
             </div>
           </CardBody>
         </Card>

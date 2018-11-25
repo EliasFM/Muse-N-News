@@ -7,6 +7,7 @@ const AudioBookObject = (obj) => {
     description: obj.description,
     genre: obj.primaryGenreName,
     image: obj.artworkUrl100,
+    isFavorite: obj.isFavorite,
     mediaType: obj.wrapperType,
     previewUrl: obj.previewUrl,
     releaseDate: obj.releaseDate.substring(0, 10),

@@ -9,7 +9,7 @@ class CardView extends Component {
     return (
       <div>
         <h2 className="content-title">Today's Featured Choices</h2>
-        <CardList objs={this.props.objs} />
+        <CardList objs={this.props.objs} handleFavorites={this.props.handleFavorites} />
       </div>
     )
   }
@@ -27,7 +27,7 @@ class CardList extends Component {
       } else {
         entity = MovieObject(obj);
       }
-      return <ContentCard key={entity.id} obj={entity} />
+      return <ContentCard key={entity.id} obj={entity} handleFavorites={this.props.handleFavorites} />
     });
     return (
       <div className='row'>

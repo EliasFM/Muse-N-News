@@ -1,14 +1,20 @@
+// Modules
 import React, { Component } from 'react';
+import { Redirect, Route, Switch } from 'react-router';
+import _ from 'lodash';
+
+// User-defined files
 import { HeaderY } from './components/headers/Headers';
 import { FixedNavBar } from './components/navbars/Navbars';
-import './App.css';
 import { CardView } from './views/CardView';
 import { Favorites } from './views/Favorites';
-import { Redirect, Route, Switch } from 'react-router';
+import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.search = this.search.bind(this);
+    this.handleFavorites = this.handleFavorites.bind(this);
     this.state = {
       currentCards: [],
       favoriteCards: [],
@@ -39,10 +45,26 @@ class App extends Component {
     });
   }
 
+  handleFavorites = (entityId) => {
+    let entity = _.find(this.state.currentCards, (obj) => {
+      return obj.trackId === entityId || obj.collectionId === entityId;
+    });
+    if (!entity.isFavorite) {
+      entity.isFavorite = true;
+    } else {
+      entity.isFavorite = false;
+    }
+    this.setState((currentState) => {
+      let state = {
+        currentCards: currentState.currentCards
+      };
+      return state;
+    });
+  }
+
   render() {
     let defaultContent = (routerProps) => {
-      //this.search('song', 'taylor swift');
-      return <CardView {...routerProps} objs={this.state.currentCards} />
+      return <CardView {...routerProps} objs={this.state.currentCards} handleFavorites={this.handleFavorites} />
     }
     return (
       <div>

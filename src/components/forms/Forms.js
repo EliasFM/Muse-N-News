@@ -28,6 +28,7 @@ class NavForm extends Component {
 
   // Make the request to search
   search() {
+    // TODO: set the term in the state
     let searchTerm = document.querySelector('#search-input').value;
     this.props.searchCallback(this.state.option, searchTerm);
   }
