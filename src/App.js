@@ -4,7 +4,7 @@ import { Redirect, Route, Switch } from 'react-router';
 import _ from 'lodash';
 
 // User-defined files
-import { HeaderY } from './components/headers/Headers';
+import { Header } from './components/headers/Headers';
 import { FixedNavBar } from './components/navbars/Navbars';
 import { CardView } from './views/CardView';
 import { Favorites } from './views/Favorites';
@@ -83,7 +83,7 @@ class App extends Component {
     return (
       <div>
         <FixedNavBar searchCallback={this.search} isLoading={this.state.isLoading} />
-        <HeaderY title='Looking for entertainment?' subtitle='Find music, movies, books, and more of your favorite genre.' />
+        <Header title='Looking for entertainment?' subtitle='Find music, movies, books, and more of your favorite genre.' />
         <div id='main-content'>
           <div className='container'>
             <div id='content'>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Jumbotron, Container } from 'reactstrap';
 
-class HeaderY extends Component {
+class Header extends Component {
   render() {
     let title = this.props.title;
     let subtitle = this.props.subtitle;
@@ -18,4 +18,4 @@ class HeaderY extends Component {
   }
 }
 
-export { HeaderY };
+export { Header };
