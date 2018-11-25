@@ -37,4 +37,4 @@ class CardList extends Component {
   }
 }
 
-export { CardView };
+export { CardView, CardList };

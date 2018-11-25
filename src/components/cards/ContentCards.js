@@ -24,7 +24,7 @@ class ContentCard extends Component {
     if (obj.isFavorite) {
       button = <Button color='btn btn-danger' onClick={this.handleFavorites}>Remove from favorites</Button>
     }
-    if (obj.mediaType == 'song') {
+    if (obj.mediaType === 'song') {
       card = (
         <Card className='mb-4'>
           <CardBody>
@@ -48,7 +48,7 @@ class ContentCard extends Component {
           </CardBody>
         </Card>
       )
-    } else if (obj.mediaType == 'audiobook') {
+    } else if (obj.mediaType === 'audiobook') {
       card = (
 
         <Card className='mb-4'>

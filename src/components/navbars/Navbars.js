@@ -3,7 +3,6 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { LeftNav } from '../navs/Navs';

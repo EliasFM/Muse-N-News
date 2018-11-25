@@ -23,7 +23,7 @@ class App extends Component {
 
   componentDidMount() {
     // On initial load
-    if (this.state.currentCards.length == 0) {
+    if (this.state.currentCards.length === 0) {
       this.search('song', 'pop');
     }
   }
@@ -49,10 +49,21 @@ class App extends Component {
     let entity = _.find(this.state.currentCards, (obj) => {
       return obj.trackId === entityId || obj.collectionId === entityId;
     });
+    // Push favorites into the favorites state
     if (!entity.isFavorite) {
       entity.isFavorite = true;
-    } else {
+      this.state.favoriteCards.push(entity);
+    } else { // Remove from favorites
       entity.isFavorite = false;
+      this.setState((currentState) => {
+        _.remove(currentState.favoriteCards, (obj) => {
+          return obj.trackId === entityId || obj.collectionId === entityId;
+        });
+        let state = {
+          favoriteCards: currentState.favoriteCards
+        };
+        return state;
+      });
     }
     this.setState((currentState) => {
       let state = {
@@ -66,6 +77,9 @@ class App extends Component {
     let defaultContent = (routerProps) => {
       return <CardView {...routerProps} objs={this.state.currentCards} handleFavorites={this.handleFavorites} />
     }
+    let favoritesContent = (routerProps) => {
+      return <Favorites {...routerProps} objs={this.state.favoriteCards} handleFavorites={this.handleFavorites} />
+    }
     return (
       <div>
         <FixedNavBar searchCallback={this.search} isLoading={this.state.isLoading} />
@@ -75,7 +89,7 @@ class App extends Component {
             <div id='content'>
               <Switch>
                 <Route exact path='/' render={defaultContent} />
-                <Route path='/favorites' component={Favorites} />
+                <Route path='/favorites' render={favoritesContent} />
                 <Redirect to='/' />
               </Switch>
             </div>
