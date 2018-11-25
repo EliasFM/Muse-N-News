@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import {
   Card,
-  CardImg, CardText,
+  CardText,
   CardBody,
   CardTitle,
   Button
 } from 'reactstrap';
 
-class SongCard extends Component {
+class ContentCard extends Component {
   render() {
     let obj = this.props.obj;
-    return (
-      <div className='col-md-6 col-xs-3 d-flex'>
+    let card;
+    if (obj.mediaType == 'song') {
+      card = (
         <Card className='mb-4'>
           <CardBody>
             <div className='col-sm-auto'>
@@ -33,16 +34,10 @@ class SongCard extends Component {
             </div>
           </CardBody>
         </Card>
-      </div>
-    )
-  }
-}
+      )
+    } else if (obj.mediaType == 'audiobook') {
+      card = (
 
-class AudioBookCard extends Component {
-  render() {
-    let obj = this.props.obj;
-    return (
-      <div className='col-md-6 col-xs-3 d-flex'>
         <Card className='mb-4'>
           <CardBody>
             <div className='col-sm-auto'>
@@ -64,18 +59,18 @@ class AudioBookCard extends Component {
             </div>
           </CardBody>
         </Card>
+      )
+    } else {
+      card = ( // TODO: Implement the moviecard
+        <div>Not implemented</div>
+      )
+    }
+    return (
+      <div className='col-md-6 col-xs-3 d-flex'>
+        {card}
       </div>
     )
   }
 }
 
-// TODO: Implement this using the other movie API
-class MovieCard extends Component {
-  render() {
-    return (
-      <div>This has not been implemented yet</div>
-    )
-  }
-}
-
-export { SongCard, AudioBookCard, MovieCard };
+export { ContentCard };

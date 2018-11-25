@@ -3,4 +3,4 @@ const MovieObject = (obj) => {
   return {};
 }
 
-export default MovieObject;
+export { MovieObject };

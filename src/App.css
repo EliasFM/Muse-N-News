@@ -40,8 +40,15 @@ footer {
     margin-top: 1em;
 }
 
-.nav-item {
+.nav-item, .mb-4:hover {
     cursor: pointer;
+}
+
+.card-hover {
+    border-color: aquamarine;
+}
+
+.nav-item a {
     color: white;
 }
 

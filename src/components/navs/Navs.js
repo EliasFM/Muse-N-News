@@ -8,10 +8,10 @@ class LeftNav extends Component {
     return (
       <Nav className='mr-auto' navbar>
         <NavItem>
-          <NavLink exact to='/' activeClassName='activeLink'>Home</NavLink>
+          <NavLink exact to='/' className='nav-link' activeClassName='activeLink'>Home</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to='/favorites' activeClassName='activeLink'>Favorites</NavLink>
+          <NavLink to='/favorites' className='nav-link' activeClassName='activeLink'>Favorites</NavLink>
         </NavItem>
       </Nav>
     )

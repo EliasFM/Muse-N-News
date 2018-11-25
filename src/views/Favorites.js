@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class Favorites extends Component {
   render() {
@@ -8,4 +8,4 @@ class Favorites extends Component {
   }
 }
 
-export {Favorites};
+export { Favorites };

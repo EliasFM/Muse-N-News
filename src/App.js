@@ -15,6 +15,13 @@ class App extends Component {
     };
   }
 
+  componentDidMount() {
+    // On initial load
+    if (this.state.currentCards.length == 0) {
+      this.search('song', 'pop');
+    }
+  }
+
   search = (option, term) => {
     if (term === '') {
       // show a modal with an error message

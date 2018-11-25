@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { SongObject } from '../models/SongObject';
 import { AudioBookObject } from '../models/AudioBookObject';
 import { MovieObject } from '../models/MovieObject';
-import { SongCard, AudioBookCard, MovieCard } from '../components/cards/ContentCards';
+import { ContentCard } from '../components/cards/ContentCards';
 
 class CardView extends Component {
   render() {
@@ -22,11 +22,12 @@ class CardList extends Component {
       let entity;
       if (obj.wrapperType === 'track') {
         entity = SongObject(obj);
-        return <SongCard key={entity.id} obj={entity} />
-      } else { // TODO: Add another check for movies
+      } else if (obj.wrapperType === 'audiobook') { // TODO: Add another check for movies
         entity = AudioBookObject(obj);
-        return <AudioBookCard key={entity.id} obj={entity} />
+      } else {
+        entity = MovieObject(obj);
       }
+      return <ContentCard key={entity.id} obj={entity} />
     });
     return (
       <div className='row'>
