@@ -31,12 +31,12 @@ class App extends Component {
     // Make a call to get popular movies and populate the data required for the carousel
   }
 
-  search = (term) => {
+  search = (option, term) => {
     if (term === '') {
       // show a modal with an error message
     }
     let url;
-    let option = this.state.currentTab;
+    // let option = this.state.currentTab;
     if (option === 'song' || option === 'audiobook') {
       url = `https://itunes.apple.com/search?entity=${option}&term=${term}&limit=25`;
     } else {
@@ -62,8 +62,16 @@ class App extends Component {
     });
   }
 
-  handleFavorites = (entityId) => {
-    let entity = _.find(this.state.currentCards, (obj) => {
+  handleFavorites = (entityId, entityType) => {
+    console.log(entityId);
+    console.log(entityType);
+    let cards = this.state.musicCards;
+    if (entityType == 'audiobook') {
+      cards = this.state.bookCards;
+    } else if (entityType == 'movie') {
+      cards = this.state.movieCards;
+    }
+    let entity = _.find(cards, (obj) => {
       return obj.trackId === entityId || obj.collectionId === entityId;
     });
     // Push favorites into the favorites state
@@ -100,11 +108,11 @@ class App extends Component {
     }
 
     let musicView = (routerProps) => {
-      return <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} />
+      return <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'song'}/>
     }
 
     let booksView = (routerProps) => {
-      return <CardView {...routerProps} title={'Books'} subtitle={'Listen to your favorite book series through audiobooks.'} objs={this.state.bookCards} handleFavorites={this.handleFavorites} searchCallback={this.search} />
+      return <CardView {...routerProps} title={'Books'} subtitle={'Listen to your favorite book series through audiobooks.'} objs={this.state.bookCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'audiobook'} />
     }
 
     let favoritesView = (routerProps) => {

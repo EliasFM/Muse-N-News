@@ -12,8 +12,10 @@ class CardView extends Component {
 
   // If the given objects are empty and if the search callback is defined, let the default search be 'pop'.
   componentDidMount() {
+    console.log('mounted');
+    console.log(`option: ${this.props.option}`);
     if (this.props.objs.length === 0 && this.props.searchCallback !== undefined) {
-      this.props.searchCallback('pop');
+      this.props.searchCallback(this.props.option, 'pop');
     }
   }
 
