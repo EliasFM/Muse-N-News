@@ -40,7 +40,7 @@ class App extends Component {
     if (option === 'song' || option === 'audiobook') {
       url = `https://itunes.apple.com/search?entity=${option}&term=${term}&limit=25`;
     } else {
-      url = ''; // TODO IMPLEMENT THE MOVIE API
+      url = `https://api.themoviedb.org/3/search/movie?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&query=${term}&page=1&include_adult=true`; // TODO IMPLEMENT THE MOVIE API
     }
     console.log(option);
     console.log(url);
@@ -96,7 +96,7 @@ class App extends Component {
 
   render() {
     let homeView = (routerProps) => {
-      return <Home {...routerProps} title={'Looking for entertainment?'} subtitle={'Find music, movies, books, and more of your favorite genre.'} />
+      return <Home {...routerProps} title={'Looking for entertainment?'} subtitle={'Find music, movies, books, and more of your favorite genre.'} searchCallback={this.search}/>
     }
 
     let musicView = (routerProps) => {

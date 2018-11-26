@@ -17,6 +17,7 @@ class Home extends Component {
         <Header title={this.props.title} subtitle={this.props.subtitle} />
         <div id='main-content'>
           <div className='container'>
+            <Carousel>
             <div id='content'>
               {this.state.data}
             </div>
@@ -24,6 +25,14 @@ class Home extends Component {
         </div>
       </div>
     )
+  }
+}
+
+class getPopular extends Component {
+
+
+  render() {
+
   }
 }
 

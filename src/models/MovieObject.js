@@ -5,7 +5,7 @@ const MovieObject = (obj) => {
     title: obj.title,
     releaseDate: obj.release_date,
     overview: obj.overview,
-    poster: 'https://image.tmdb.org/t/p/w500/${obj.poster_path}',
+    poster: `https://image.tmdb.org/t/p/w500/${obj.poster_path}`,
     voteAverage: obj.vote_average
   }
 };
