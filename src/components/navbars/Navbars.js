@@ -29,7 +29,7 @@ class FixedNavBar extends Component {
         <Link to='/' className='navbar-brand'>Title goes here</Link>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
-          <LeftNav />
+          <LeftNav handleTab={this.props.handleTab} />
           <NavForm searchCallback={this.props.searchCallback} isLoading={this.props.isLoading} />
         </Collapse>
       </Navbar>
