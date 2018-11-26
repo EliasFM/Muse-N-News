@@ -15,7 +15,12 @@ class CardView extends Component {
     console.log('mounted');
     console.log(`option: ${this.props.option}`);
     if (this.props.objs.length === 0 && this.props.searchCallback !== undefined) {
-      this.props.searchCallback(this.props.option, 'pop');
+      if(this.props.option !== 'movie') {
+        this.props.searchCallback(this.props.option, 'pop');
+      } else {
+        // TODO display popular movies (?)
+      }
+      console.log(this.props.searchCallback);
     }
   }
 

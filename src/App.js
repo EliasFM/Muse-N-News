@@ -23,12 +23,24 @@ class App extends Component {
       movieCards: [],
       bookCards: [],
       favoriteCards: [],
+      homeMovies: [],
       currentTab: 'home',
     };
   }
 
   componentDidMount() {
     // Make a call to get popular movies and populate the data required for the carousel
+    let url = "https://api.themoviedb.org/3/movie/popular?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&page=1";
+    this.setState({ isLoading: true });
+    fetch(url).then((res) => {
+      return res.json();
+    }).then((data) => {
+      this.setState({homeMovies: data.results});
+    }).catch((err) => {
+      console.log(`Error: ${err}`);
+    }).then(() => {
+      this.setState({ isLoading: false });
+    });
   }
 
   search = (option, term) => {
@@ -53,7 +65,7 @@ class App extends Component {
       } else if (option === 'audiobook') {
         this.setState({bookCards: data.results});
       } else {
-        this.setState({movieCards: data}); // TODO: MOVIE DATA
+        this.setState({movieCards: data.results}); // TODO: MOVIE DATA
       }
     }).catch((err) => {
       console.log(`Error: ${err}`);
@@ -104,11 +116,15 @@ class App extends Component {
 
   render() {
     let homeView = (routerProps) => {
-      return <Home {...routerProps} title={'Looking for entertainment?'} subtitle={'Find music, movies, books, and more of your favorite genre.'} searchCallback={this.search}/>
+      return <Home {...routerProps} title={'Looking for entertainment?'} subtitle={'Find music, movies, books, and more of your favorite genre.'} objs={this.state.homeMovies} />
     }
 
     let musicView = (routerProps) => {
       return <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'song'}/>
+    }
+
+    let moviesView = (routerProps) => {
+      return <CardView {...routerProps} title={'Movies'} subtitle={'Find the movie you\'ve been looking for.'} objs={this.state.movieCards} handleFavorites={this.handleFavorites} searchCallback={this.componentDidMount} option={'movie'}/>
     }
 
     let booksView = (routerProps) => {
@@ -125,7 +141,7 @@ class App extends Component {
         <Switch>
           <Route exact path='/' render={homeView} />
           <Route path='/music' render={musicView} />
-          <Route path='/movies' component={Movies} />
+          <Route path='/movies' component={moviesView} />
           <Route path='/books' render={booksView} />
           <Route path='/favorites' render={favoritesView} />
           <Redirect to='/' />

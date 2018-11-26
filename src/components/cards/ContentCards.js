@@ -74,8 +74,24 @@ class ContentCard extends Component {
         </Card>
       )
     } else {
-      card = ( // TODO: Implement the moviecard
-        <div>Not implemented</div>
+        card = (
+          <Card className='mb-4'>
+            <CardBody>
+              <div className='col-sm-auto'>
+                <img className='pb-3' src={obj.poster} alt={obj.title} />
+              </div>
+              <div className='col-sm'>
+                <CardTitle className='card-title'>
+                  <p> {obj.title} </p>
+                </CardTitle>
+                <CardText>Genre: {obj.genre}</CardText>
+                <CardText>Release Date: {obj.releaseDate} </CardText>
+                <CardText>Description: {obj.overview}</CardText>
+                <CardText>Rating: {obj.voteAverage}</CardText>
+                {button}
+              </div>
+            </CardBody>
+          </Card>
       )
     }
     return (
