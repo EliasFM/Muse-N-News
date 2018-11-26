@@ -14,7 +14,7 @@ class ContentCard extends Component {
   }
 
   handleFavorites = () => {
-    this.props.handleFavorites(this.props.obj.id);
+    this.props.handleFavorites(this.props.obj.id, this.props.obj.wrapperType);
   }
 
   render() {
@@ -68,7 +68,7 @@ class ContentCard extends Component {
                 </cite>
               </CardText>
               <CardText>Description: {obj.description}</CardText>
-              <Button color='btn btn-success'>Add to favorites</Button>
+              {button}
             </div>
           </CardBody>
         </Card>

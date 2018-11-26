@@ -27,7 +27,7 @@ class FixedNavBar extends Component {
     let currentTab = this.props.currentTab;
     return (
       <Navbar className='navbar-expand-md navbar-dark fixed-top bg-dark'>
-        <Link to='/' className='navbar-brand'>Title goes here</Link>
+        <Link to='/' className='navbar-brand'>Muse N' News</Link>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
         <LeftNav handleTab={this.props.handleTab} />
