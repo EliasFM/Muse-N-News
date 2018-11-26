@@ -36,7 +36,10 @@ class App extends Component {
       return res.json();
     }).then((data) => {
       this.setState({homeMovies: data.results});
-      this.setState({movieCards: data.results});
+      if(this.state.movieCards.length === 0) {
+        this.setState({movieCards: data.results});
+      }
+      
     }).catch((err) => {
       console.log(`Error: ${err}`);
     }).then(() => {
@@ -56,6 +59,7 @@ class App extends Component {
       url = `https://api.themoviedb.org/3/search/movie?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&query=${term}&page=1&include_adult=true`; // TODO IMPLEMENT THE MOVIE API
     }
     console.log(option);
+    console.log('hello');
     console.log(url);
     this.setState({ isLoading: true });
     fetch(url).then((res) => {
@@ -125,7 +129,7 @@ class App extends Component {
     }
 
     let moviesView = (routerProps) => {
-      return <CardView {...routerProps} title={'Movies'} subtitle={'Find the movie you\'ve been looking for.'} objs={this.state.movieCards} handleFavorites={this.handleFavorites} searchCallback={this.componentDidMount} option={'movie'}/>
+      return <Movies {...routerProps} title={'Movies'} subtitle={'Find the movie you\'ve been looking for.'} objs={this.state.movieCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'movie'}/>
     }
 
     let booksView = (routerProps) => {

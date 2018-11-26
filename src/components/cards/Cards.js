@@ -14,19 +14,12 @@ class CardView extends Component {
   componentDidMount() {
     console.log('mounted');
     console.log(`option: ${this.props.option}`);
-    if (this.props.objs.length === 0 && this.props.searchCallback !== undefined) {
-      if(this.props.option !== 'movie') {
-        this.props.searchCallback(this.props.option, 'pop');
-      } else {
-        // TODO display popular movies (?)
-      }
-      console.log("hello");
-      
+    if (this.props.objs.length === 0 && this.props.searchCallback !== undefined && this.props.option !== 'movie') {
+      this.props.searchCallback(this.props.option, 'pop');
     }
   }
 
   render() {
-    console.log(this.props.searchCallback);
     return (
       <div>
         <Header title={this.props.title} subtitle={this.props.subtitle} />
