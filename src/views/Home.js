@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { Header } from '../components/headers/Headers';
 import { MovieObject } from '../models/MovieObject';
 import { 
-  Carousel
+  Carousel,
+  CarouselItem,
+  CarouselCaption
 } from 'react-bootstrap';
+
+
 
 
 class Home extends Component {
@@ -11,6 +15,8 @@ class Home extends Component {
     super(props);
     this.state = {};
   }
+
+  
 
   componentDidMount() {
     this.setState({ data: 'not implemented' });
@@ -26,7 +32,7 @@ class Home extends Component {
         <div id='main-content'>
           <div className='container'>
             <div id='content'>
-              
+              <PopularList objs={this.props.objs} />
             </div>
           </div>
         </div>
@@ -37,19 +43,21 @@ class Home extends Component {
 
 class PopularList extends Component {
   
-
   render() {
     let carouselItems = this.props.objs.map((obj) => {
       let entity = MovieObject(obj);
-      return <carouselImage key={entity.id} movie={entity} />;
+      let component = <CarouselImage key={entity.id} movie={entity} />;
+      return component;
     })
     return (
-      {carouselItems}
+      <Carousel>
+        {carouselItems}
+      </Carousel>
     )
   }
 }
 
-class carouselImage extends Component {
+class CarouselImage extends Component {
   
   render() {
     let movie = this.props.movie;
