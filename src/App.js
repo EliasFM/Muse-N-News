@@ -113,7 +113,7 @@ class App extends Component {
 
     return (
       <div>
-        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} />
+        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} />
         <Switch>
           <Route exact path='/' render={homeView} />
           <Route path='/music' render={musicView} />
