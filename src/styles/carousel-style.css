@@ -1,0 +1,12 @@
+:local(.caption) {
+    position: relative;
+    color: black;
+    left: 0%;
+}
+
+:local(.image) {
+    margin: 0 auto;
+    position: relative;
+    left: 25%;
+}
+

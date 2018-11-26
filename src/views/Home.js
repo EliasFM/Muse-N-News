@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Header } from '../components/headers/Headers';
 import { MovieObject } from '../models/MovieObject';
+import styles from '../styles/carousel-style.css'
 import {
   Carousel,
   CarouselItem,
@@ -60,8 +61,8 @@ class Home extends Component {
           onExited={this.onExited}
           key={item.poster}
         >
-          <img src={item.poster} alt={item.title} />
-          <CarouselCaption captionText={item.overview} captionHeader={item.title} />
+          <img className={styles.image} src={item.poster} alt={item.title} />
+          <CarouselCaption className={styles.caption} captionText={item.overview} captionHeader={item.title} />
         </CarouselItem>
       );
     });
@@ -85,38 +86,6 @@ class Home extends Component {
           </div>
         </div>
       </div>
-    )
-  }
-}
-
-class PopularList extends Component {
-  
-  render() {
-    let carouselItems = this.props.objs.map((obj) => {
-      let entity = MovieObject(obj);
-      let component = <CarouselImage key={entity.id} movie={entity} />;
-      return component;
-    })
-    return (
-      <Carousel>
-        {carouselItems}
-      </Carousel>
-    )
-  }
-}
-
-class CarouselImage extends Component {
-  
-  render() {
-    let movie = this.props.movie;
-    return (
-      <Carousel.Item>
-        <img width={900} height={500} alt="900x500" src={movie.poster} />
-        <Carousel.Caption>
-          <h3>{movie.title}</h3>
-          <p>{movie.overview}</p>
-        </Carousel.Caption>
-      </Carousel.Item>
     )
   }
 }
