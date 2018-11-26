@@ -20,11 +20,13 @@ class CardView extends Component {
       } else {
         // TODO display popular movies (?)
       }
-      console.log(this.props.searchCallback);
+      console.log("hello");
+      
     }
   }
 
   render() {
+    console.log(this.props.searchCallback);
     return (
       <div>
         <Header title={this.props.title} subtitle={this.props.subtitle} />

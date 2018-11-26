@@ -36,6 +36,7 @@ class App extends Component {
       return res.json();
     }).then((data) => {
       this.setState({homeMovies: data.results});
+      this.setState({movieCards: data.results});
     }).catch((err) => {
       console.log(`Error: ${err}`);
     }).then(() => {

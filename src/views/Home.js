@@ -59,7 +59,7 @@ class Home extends Component {
         <CarouselItem
           onExiting={this.onExiting}
           onExited={this.onExited}
-          key={item.poster}
+          key={item.id}
         >
           <img className={styles.image} src={item.poster} alt={item.title} />
           <CarouselCaption className={styles.caption} captionText={item.overview} captionHeader={item.title} />

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+//import styles from '../styles/card-style.css'
 import {
   Card,
   CardText,
@@ -78,7 +79,7 @@ class ContentCard extends Component {
           <Card className='mb-4'>
             <CardBody>
               <div className='col-sm-auto'>
-                <img className='pb-3' src={obj.poster} alt={obj.title} />
+                <img className='pb-3 img-fluid' src={obj.poster} alt={obj.title} />
               </div>
               <div className='col-sm'>
                 <CardTitle className='card-title'>
