@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Header } from '../components/headers/Headers';
 import { MovieObject } from '../models/MovieObject';
-import { 
+import {
   Carousel,
   CarouselItem,
+  CarouselControl,
+  CarouselIndicators,
   CarouselCaption
-} from 'react-bootstrap';
+} from 'reactstrap';
 
 
 
@@ -13,26 +15,72 @@ import {
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { activeIndex: 0 };
+    this.next = this.next.bind(this);
+    this.previous = this.previous.bind(this);
+    this.goToIndex = this.goToIndex.bind(this);
+    this.onExiting = this.onExiting.bind(this);
+    this.onExited = this.onExited.bind(this);
   }
-
   
-
-  componentDidMount() {
-    this.setState({ data: 'not implemented' });
+  onExiting() {
+    this.animating = true;
   }
-  // trying to implement carousel, throws error when below code is used
-  // <Carousel>
-  //    <PopularList objs={this.props.objs} />
-  // </Carousel>
+
+  onExited() {
+    this.animating = false;
+  }
+
+  next() {
+    if (this.animating) return;
+    const nextIndex = this.state.activeIndex === this.props.objs.length - 1 ? 0 : this.state.activeIndex + 1;
+    this.setState({ activeIndex: nextIndex });
+  }
+
+  previous() {
+    if (this.animating) return;
+    const nextIndex = this.state.activeIndex === 0 ? this.props.objs.length - 1 : this.state.activeIndex - 1;
+    this.setState({ activeIndex: nextIndex });
+  }
+
+  goToIndex(newIndex) {
+    if (this.animating) return;
+    this.setState({ activeIndex: newIndex });
+  }
+  
   render() {
+    const { activeIndex } = this.state;
+    let items = this.props.objs.map((obj) => {
+      return MovieObject(obj);
+    });
+    const slides = items.map((item) => {
+      return (
+        <CarouselItem
+          onExiting={this.onExiting}
+          onExited={this.onExited}
+          key={item.poster}
+        >
+          <img src={item.poster} alt={item.title} />
+          <CarouselCaption captionText={item.overview} captionHeader={item.title} />
+        </CarouselItem>
+      );
+    });
     return (
       <div>
         <Header title={this.props.title} subtitle={this.props.subtitle} />
         <div id='main-content'>
           <div className='container'>
             <div id='content'>
-              <PopularList objs={this.props.objs} />
+              <Carousel
+                activeIndex={activeIndex}
+                next={this.next}
+                previous={this.previous}
+              >
+                <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+                {slides}
+                <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
+                <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+              </Carousel>
             </div>
           </div>
         </div>
