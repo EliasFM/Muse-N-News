@@ -4,14 +4,29 @@ import { NavLink } from 'react-router-dom';
 
 
 class LeftNav extends Component {
+  constructor(props) {
+    super(props);
+    this.handleTab = this.handleTab.bind(this);
+  }
+
+  handleTab = (event) => {
+    this.props.handleTab(event.target.id);
+  }
+
   render() {
     return (
       <Nav className='mr-auto' navbar>
-        <NavItem>
-          <NavLink exact to='/' className='nav-link' activeClassName='activeLink'>Home</NavLink>
+        <NavItem onClick={this.handleTab}>
+          <NavLink to='/music' id='song' className='nav-link' activeClassName='activeLink'>Music</NavLink>
         </NavItem>
-        <NavItem>
-          <NavLink to='/favorites' className='nav-link' activeClassName='activeLink'>Favorites</NavLink>
+        <NavItem onClick={this.handleTab}>
+          <NavLink to='/movies' id='movie' className='nav-link' activeClassName='activeLink'>Movies</NavLink>
+        </NavItem>
+        <NavItem onClick={this.handleTab}>
+          <NavLink to='/books' id='audiobook' className='nav-link' activeClassName='activeLink'>Books</NavLink>
+        </NavItem>
+        <NavItem onClick={this.handleTab}>
+          <NavLink to='/favorites' id='favorites' className='nav-link' activeClassName='activeLink'>Favorites</NavLink>
         </NavItem>
       </Nav>
     )

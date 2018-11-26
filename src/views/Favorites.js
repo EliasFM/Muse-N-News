@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CardList } from '../views/CardView';
+import { CardView } from '../components/cards/Cards';
 
 class Favorites extends Component {
   render() {
@@ -8,10 +8,7 @@ class Favorites extends Component {
       return obj.isFavorite === true;
     });
     return (
-      <div>
-        <h2 className="content-title">Favorites</h2>
-        <CardList objs={this.props.objs} handleFavorites={this.props.handleFavorites} />
-      </div>
+      <CardView title={this.props.title} subtitle={this.props.subtitle} objs={this.props.objs} handleFavorites={this.props.handleFavorites} />
     )
   }
 }

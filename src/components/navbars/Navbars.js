@@ -24,13 +24,14 @@ class FixedNavBar extends Component {
   }
 
   render() {
+    let currentTab = this.props.currentTab;
     return (
       <Navbar className='navbar-expand-md navbar-dark fixed-top bg-dark'>
         <Link to='/' className='navbar-brand'>Title goes here</Link>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
-          <LeftNav />
-          <NavForm searchCallback={this.props.searchCallback} isLoading={this.props.isLoading} />
+        <LeftNav handleTab={this.props.handleTab} />
+        <NavForm searchCallback={this.props.searchCallback} isLoading={this.props.isLoading} />
         </Collapse>
       </Navbar>
     )

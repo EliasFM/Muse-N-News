@@ -6,38 +6,55 @@ import _ from 'lodash';
 // User-defined files
 import { Header } from './components/headers/Headers';
 import { FixedNavBar } from './components/navbars/Navbars';
-import { CardView } from './views/CardView';
+import { CardView } from './components/cards/Cards';
 import { Favorites } from './views/Favorites';
 import './App.css';
+import { Home } from './views/Home';
+import { Movies } from './views/Movies';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.search = this.search.bind(this);
     this.handleFavorites = this.handleFavorites.bind(this);
+    this.handleTab = this.handleTab.bind(this);
     this.state = {
-      currentCards: [],
+      musicCards: [],
+      movieCards: [],
+      bookCards: [],
       favoriteCards: [],
+      currentTab: 'home',
     };
   }
 
   componentDidMount() {
-    // On initial load
-    if (this.state.currentCards.length === 0) {
-      this.search('song', 'pop');
-    }
+    // Make a call to get popular movies and populate the data required for the carousel
   }
 
-  search = (option, term) => {
+  search = (term) => {
     if (term === '') {
       // show a modal with an error message
     }
-    let url = `https://itunes.apple.com/search?entity=${option}&term=${term}&limit=25`;
+    let url;
+    let option = this.state.currentTab;
+    if (option === 'song' || option === 'audiobook') {
+      url = `https://itunes.apple.com/search?entity=${option}&term=${term}&limit=25`;
+    } else {
+      url = ''; // TODO IMPLEMENT THE MOVIE API
+    }
+    console.log(option);
+    console.log(url);
     this.setState({ isLoading: true });
     fetch(url).then((res) => {
       return res.json();
     }).then((data) => {
-      this.setState({ currentCards: data.results });
+      if (option === 'song') {
+        this.setState({ musicCards: data.results });
+      } else if (option === 'audiobook') {
+        this.setState({bookCards: data.results});
+      } else {
+        this.setState({movieCards: data}); // TODO: MOVIE DATA
+      }
     }).catch((err) => {
       console.log(`Error: ${err}`);
     }).then(() => {
@@ -73,28 +90,38 @@ class App extends Component {
     });
   }
 
+  handleTab = (tab) => {
+    this.setState({ currentTab: tab });
+  }
+
   render() {
-    let defaultContent = (routerProps) => {
-      return <CardView {...routerProps} objs={this.state.currentCards} handleFavorites={this.handleFavorites} />
+    let homeView = (routerProps) => {
+      return <Home {...routerProps} title={'Looking for entertainment?'} subtitle={'Find music, movies, books, and more of your favorite genre.'} />
     }
-    let favoritesContent = (routerProps) => {
-      return <Favorites {...routerProps} objs={this.state.favoriteCards} handleFavorites={this.handleFavorites} />
+
+    let musicView = (routerProps) => {
+      return <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} />
     }
+
+    let booksView = (routerProps) => {
+      return <CardView {...routerProps} title={'Books'} subtitle={'Listen to your favorite book series through audiobooks.'} objs={this.state.bookCards} handleFavorites={this.handleFavorites} searchCallback={this.search} />
+    }
+
+    let favoritesView = (routerProps) => {
+      return <Favorites {...routerProps} title={'Favorites'} subtitle={'Here are your favorites'} objs={this.state.favoriteCards} handleFavorites={this.handleFavorites} />
+    }
+
     return (
       <div>
-        <FixedNavBar searchCallback={this.search} isLoading={this.state.isLoading} />
-        <Header title='Looking for entertainment?' subtitle='Find music, movies, books, and more of your favorite genre.' />
-        <div id='main-content'>
-          <div className='container'>
-            <div id='content'>
-              <Switch>
-                <Route exact path='/' render={defaultContent} />
-                <Route path='/favorites' render={favoritesContent} />
-                <Redirect to='/' />
-              </Switch>
-            </div>
-          </div>
-        </div>
+        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} />
+        <Switch>
+          <Route exact path='/' render={homeView} />
+          <Route path='/music' render={musicView} />
+          <Route path='/movies' component={Movies} />
+          <Route path='/books' render={booksView} />
+          <Route path='/favorites' render={favoritesView} />
+          <Redirect to='/' />
+        </Switch>
       </div>
     )
   }
