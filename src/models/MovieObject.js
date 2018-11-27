@@ -98,7 +98,8 @@ const MovieObject = (obj) => {
     overview: obj.overview,
     poster: `https://image.tmdb.org/t/p/w500/${obj.poster_path}`,
     voteAverage: obj.vote_average,
-    genre: results
+    genre: results,
+    isFavorite: obj.isFavorite
   }
 };
 

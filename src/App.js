@@ -35,11 +35,10 @@ class App extends Component {
     fetch(url).then((res) => {
       return res.json();
     }).then((data) => {
-      this.setState({homeMovies: data.results});
-      if(this.state.movieCards.length === 0) {
-        this.setState({movieCards: data.results});
+      this.setState({ homeMovies: data.results });
+      if (this.state.movieCards.length === 0) {
+        this.setState({ movieCards: data.results });
       }
-      
     }).catch((err) => {
       console.log(`Error: ${err}`);
     }).then(() => {
@@ -67,9 +66,9 @@ class App extends Component {
       if (option === 'song') {
         this.setState({ musicCards: data.results });
       } else if (option === 'audiobook') {
-        this.setState({bookCards: data.results});
+        this.setState({ bookCards: data.results });
       } else {
-        this.setState({movieCards: data.results}); // TODO: MOVIE DATA
+        this.setState({ movieCards: data.results }); // TODO: MOVIE DATA
       }
     }).catch((err) => {
       console.log(`Error: ${err}`);
@@ -88,9 +87,10 @@ class App extends Component {
       cards = this.state.movieCards;
     }
     let entity = _.find(cards, (obj) => {
-      return obj.trackId === entityId || obj.collectionId === entityId;
+      return obj.trackId === entityId || obj.collectionId === entityId || obj.id === entityId;
     });
     // Push favorites into the favorites state
+    console.log(entity);
     if (!entity.isFavorite) {
       entity.isFavorite = true;
       this.state.favoriteCards.push(entity);
@@ -124,11 +124,11 @@ class App extends Component {
     }
 
     let musicView = (routerProps) => {
-      return <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'song'}/>
+      return <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'song'} />
     }
 
     let moviesView = (routerProps) => {
-      return <Movies {...routerProps} title={'Movies'} subtitle={'Find the movie you\'ve been looking for.'} objs={this.state.movieCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'movie'}/>
+      return <Movies {...routerProps} title={'Movies'} subtitle={'Find the movie you\'ve been looking for.'} objs={this.state.movieCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'movie'} />
     }
 
     let booksView = (routerProps) => {
