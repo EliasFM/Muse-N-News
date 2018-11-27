@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/react-yulongtan-katieclark/precache-manifest.06881c1a6ea0a210f96b4c5de0eee908.js"
+  "/stage-0-topic-proposal-yulongtan/precache-manifest.a8a3c49b0946b2546aa378717b5ba302.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/react-yulongtan-katieclark/index.html", {
+workbox.routing.registerNavigationRoute("/stage-0-topic-proposal-yulongtan/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
