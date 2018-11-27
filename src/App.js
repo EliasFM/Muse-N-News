@@ -52,15 +52,12 @@ class App extends Component {
       // show a modal with an error message
     }
     let url;
-    // let option = this.state.currentTab;
+    //option = this.state.currentTab;
     if (option === 'song' || option === 'audiobook') {
       url = `https://itunes.apple.com/search?entity=${option}&term=${term}&limit=25`;
     } else {
       url = `https://api.themoviedb.org/3/search/movie?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&query=${term}&page=1&include_adult=true`; // TODO IMPLEMENT THE MOVIE API
     }
-    console.log(option);
-    console.log('hello');
-    console.log(url);
     this.setState({ isLoading: true });
     fetch(url).then((res) => {
       return res.json();
@@ -146,7 +143,7 @@ class App extends Component {
         <Switch>
           <Route exact path='/' render={homeView} />
           <Route path='/music' render={musicView} />
-          <Route path='/movies' component={moviesView} />
+          <Route path='/movies' render={moviesView} />
           <Route path='/books' render={booksView} />
           <Route path='/favorites' render={favoritesView} />
           <Redirect to='/' />

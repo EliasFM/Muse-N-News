@@ -1,5 +1,6 @@
 // TODO: Needs to be implemented. Needs to have more or less the same properties as the other cards for consistency. 
-//import { genres } from '../components/genre/genre-id';
+//import { genres } from '../components/genre/genre-ids';
+
 var genres = [
   {
       "id": 28,
@@ -77,18 +78,17 @@ var genres = [
       "id": 37,
       "name": "Western"
   }
-]
+];
+
 
 const MovieObject = (obj) => {
   let genreIDs = obj.genre_ids;
-  let tempResults = [];
   let results = [];
-  for(let i = 0; i < genreIDs.length; i++) {
-    tempResults[i] = genres.filter(function (entry) { return entry.id === genreIDs[i]; });
+  for (let i = 0; i < genreIDs.length; i++) {
+    results[i] = genres.filter(function(genre){ return genre.id === genreIDs[i] })[0].name;
   }
-  for(let i = 0; i < tempResults.length; i++) {
-    results[i] = Object.values(tempResults[i])[1];
-  }
+  console.log(results);
+
   
   return {
     id: obj.id,
@@ -98,7 +98,8 @@ const MovieObject = (obj) => {
     overview: obj.overview,
     poster: `https://image.tmdb.org/t/p/w500/${obj.poster_path}`,
     voteAverage: obj.vote_average,
-    genre: results
+    genre: results.join(', '),
+    isFavorite: false
   }
 };
 
