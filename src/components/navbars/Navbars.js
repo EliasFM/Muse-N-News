@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { LeftNav } from '../navs/Navs';
 import { NavForm } from '../forms/Forms';
 
+// This is the page's main navbar
 class FixedNavBar extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +18,7 @@ class FixedNavBar extends Component {
     };
   }
 
+  // This toggle works with the bootstrap collapse
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen

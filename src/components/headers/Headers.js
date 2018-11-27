@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Jumbotron, Container } from 'reactstrap';
 
+// This is the jumbotron that acts as a large heading
 class Header extends Component {
   render() {
     let title = this.props.title;

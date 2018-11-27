@@ -5,6 +5,7 @@ import {
   Input,
 } from 'reactstrap';
 
+// This is the search bar that lives on the right side of the nav bar
 class NavForm extends Component {
   constructor(props) {
     super(props);
@@ -17,19 +18,18 @@ class NavForm extends Component {
 
   // Make the request to search
   search() {
-    // TODO: set the term in the state
     let searchTerm = this.state.term;
-    console.log(searchTerm);
-    console.log(this.props.currentTab);
     this.props.searchCallback(this.props.currentTab, searchTerm);
     this.setState({ term: '' });
   }
 
+  // Handles the input of the search
   handleInput = (event) => {
     this.setState({ term: event.target.value });
   }
 
   render() {
+    // Shows the spinner when a request is being made
     let loader = <i className='d-none fa fa-spinner fa-spin fa-fw'
       aria-hidden='true' />;
     if (this.props.isLoading) {
