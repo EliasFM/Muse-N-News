@@ -20,7 +20,8 @@ class NavForm extends Component {
     // TODO: set the term in the state
     let searchTerm = this.state.term;
     console.log(searchTerm);
-    this.props.searchCallback(searchTerm);
+    console.log(this.props.currentTab);
+    this.props.searchCallback(this.props.currentTab, searchTerm);
     this.setState({ term: '' });
   }
 

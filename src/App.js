@@ -59,7 +59,6 @@ class App extends Component {
       url = `https://api.themoviedb.org/3/search/movie?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&query=${term}&page=1&include_adult=true`; // TODO IMPLEMENT THE MOVIE API
     }
     console.log(option);
-    console.log('hello');
     console.log(url);
     this.setState({ isLoading: true });
     fetch(url).then((res) => {
