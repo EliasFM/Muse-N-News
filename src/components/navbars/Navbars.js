@@ -31,7 +31,7 @@ class FixedNavBar extends Component {
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
         <LeftNav handleTab={this.props.handleTab} />
-        <NavForm searchCallback={this.props.searchCallback} isLoading={this.props.isLoading} />
+        <NavForm searchCallback={this.props.searchCallback} isLoading={this.props.isLoading} currentTab={currentTab} />
         </Collapse>
       </Navbar>
     )
