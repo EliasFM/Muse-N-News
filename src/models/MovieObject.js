@@ -104,8 +104,8 @@ const MovieObject = (obj) => {
     poster: path,
     src: path,
     voteAverage: obj.vote_average,
-    genre: results.join(', '),
-    isFavorite: false
+    genre: results,
+    isFavorite: obj.isFavorite
   }
 };
 
