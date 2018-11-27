@@ -24,10 +24,8 @@ class CardView extends Component {
       <div>
         <Header title={this.props.title} subtitle={this.props.subtitle} />
         <div id='main-content'>
-          <div className='container'>
-            <div id='content'>
-              <CardList objs={this.props.objs} handleFavorites={this.props.handleFavorites} />
-            </div>
+          <div id='content'>
+            <CardList objs={this.props.objs} handleFavorites={this.props.handleFavorites} />
           </div>
         </div>
       </div>

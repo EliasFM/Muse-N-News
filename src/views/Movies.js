@@ -36,11 +36,9 @@ class Movies extends Component {
           <input type="submit" value="Submit" />
         </form>
       </div>
-          <div className='container'>
             <div id='content'>
               {cards}
             </div>
-          </div>
         </div>
       </div>
       
