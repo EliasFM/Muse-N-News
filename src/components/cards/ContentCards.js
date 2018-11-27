@@ -96,7 +96,7 @@ class ContentCard extends Component {
       )
     }
     return (
-      <div className='col-md-6 col-xs-3 d-flex'>
+      <div className='col-lg-4 col-md-6 col-xs-3 d-flex'>
         {card}
       </div>
     )
