@@ -52,7 +52,7 @@ class App extends Component {
     let url;
     //option = this.state.currentTab;
     if (option === 'song' || option === 'audiobook') {
-      url = `https://itunes.apple.com/search?entity=${option}&term=${term}&limit=25`;
+      url = `https://itunes.apple.com/search?entity=${option}&term=${term}&limit=50`;
     } else {
       url = `https://api.themoviedb.org/3/search/movie?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&query=${term}&page=1&include_adult=true`; // TODO IMPLEMENT THE MOVIE API
     }
