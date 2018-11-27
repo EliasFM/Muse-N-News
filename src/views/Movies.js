@@ -13,7 +13,8 @@ class Movies extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       value: '',
-      dropdownOpen: false
+      dropdownOpen: false,
+      movies: []
     };
   }
 
@@ -35,12 +36,28 @@ class Movies extends Component {
   
 
   filterGenre(id) {
-    let url = 'https://api.themoviedb.org/3/discover/movie?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=${id}';
+    let url = `https://api.themoviedb.org/3/discover/movie?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=${id}`;
     console.log(url);
+    this.setState({ isLoading: true });
+    fetch(url).then((res) => {
+      return res.json();
+    }).then((data) => {
+      this.setState({movies: data.results}); // TODO: MOVIE DATA
+    }).catch((err) => {
+      console.log(`Error: ${err}`);
+    }).then(() => {
+      this.setState({ isLoading: false });
+    });
   }
 
   render() {
-    let cards = <CardList objs={this.props.objs} handleFavorites={this.props.handleFavorites} />;
+    let cards;
+    if (this.state.movies.length === 0) {
+      cards = <CardList objs={this.props.objs} handleFavorites={this.props.handleFavorites} />;
+    } else {
+      cards = <CardList objs={this.state.movies} handleFavorites={this.props.handleFavorites} />;
+    }
+
 
     return (
       <div>
@@ -53,6 +70,7 @@ class Movies extends Component {
           <select value={this.state.value} onChange={this.handleChange}>
             <option value="28">Action</option>
             <option value="12">Adventure</option>
+            <option value="16">Animation</option>
             <option value="35">Comedy</option>
             <option value="80">Crime</option>
             <option value="99">Documentary</option>

@@ -87,8 +87,13 @@ const MovieObject = (obj) => {
   for (let i = 0; i < genreIDs.length; i++) {
     results[i] = genres.filter(function(genre){ return genre.id === genreIDs[i] })[0].name;
   }
-  console.log(results);
 
+  let path;
+  if (obj.poster_path === null) {
+      path = 'img/no-poster.jpg';
+  } else {
+      path = `https://image.tmdb.org/t/p/w500/${obj.poster_path}`;
+  }
   
   return {
     id: obj.id,
@@ -96,7 +101,8 @@ const MovieObject = (obj) => {
     mediaType: 'movie',
     releaseDate: obj.release_date,
     overview: obj.overview,
-    poster: `https://image.tmdb.org/t/p/w500/${obj.poster_path}`,
+    poster: path,
+    src: path,
     voteAverage: obj.vote_average,
     genre: results.join(', '),
     isFavorite: false
