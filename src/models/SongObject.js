@@ -1,3 +1,4 @@
+// This object represents a song
 const SongObject = (obj) => {
   return {
     id: obj.trackId,

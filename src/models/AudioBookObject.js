@@ -1,3 +1,4 @@
+// This object represents a book
 const AudioBookObject = (obj) => {
   return {
     id: obj.collectionId,

@@ -5,15 +5,11 @@ import { MovieObject } from '../../models/MovieObject';
 import { ContentCard } from './ContentCards';
 import { Header } from '../headers/Headers';
 
+// CardView shows a list of cards within some container divs
 class CardView extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   // If the given objects are empty and if the search callback is defined, let the default search be 'pop'.
   componentDidMount() {
-    console.log('mounted');
-    console.log(`option: ${this.props.option}`);
     if (this.props.objs.length === 0 && this.props.searchCallback !== undefined && this.props.option !== 'movie') {
       this.props.searchCallback(this.props.option, 'pop');
     }
@@ -33,14 +29,16 @@ class CardView extends Component {
   }
 }
 
+// Shows a list of <ContentCard>
 class CardList extends Component {
   render() {
     let objs = this.props.objs;
+    // Splits each object into their own card data, because the data is inherently different.
     objs = objs.map((obj) => {
       let entity;
       if (obj.wrapperType === 'track') {
         entity = SongObject(obj);
-      } else if (obj.wrapperType === 'audiobook') { // TODO: Add another check for movies
+      } else if (obj.wrapperType === 'audiobook') {
         entity = AudioBookObject(obj);
       } else {
         entity = MovieObject(obj);

@@ -4,7 +4,6 @@ import { Redirect, Route, Switch } from 'react-router';
 import _ from 'lodash';
 
 // User-defined files
-import { Header } from './components/headers/Headers';
 import { FixedNavBar } from './components/navbars/Navbars';
 import { CardView } from './components/cards/Cards';
 import { Favorites } from './views/Favorites';
@@ -40,15 +39,15 @@ class App extends Component {
         this.setState({ movieCards: data.results });
       }
     }).catch((err) => {
-      console.log(`Error: ${err}`);
     }).then(() => {
       this.setState({ isLoading: false });
     });
   }
 
+  // This handles searching and sets the right card states to re-render cards
   search = (option, term) => {
     if (term === '') {
-      // show a modal with an error message
+      // TODO: (stage 4) show a modal with an error message
     }
     let url;
     //option = this.state.currentTab;
@@ -57,8 +56,6 @@ class App extends Component {
     } else {
       url = `https://api.themoviedb.org/3/search/movie?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&query=${term}&page=1&include_adult=true`; // TODO IMPLEMENT THE MOVIE API
     }
-    console.log(option);
-    console.log(url);
     this.setState({ isLoading: true });
     fetch(url).then((res) => {
       return res.json();
@@ -77,20 +74,18 @@ class App extends Component {
     });
   }
 
+  // This adds and removes from the favorites state, which renders the favorites cards
   handleFavorites = (entityId, entityType) => {
-    console.log(entityId);
-    console.log(entityType);
     let cards = this.state.musicCards;
-    if (entityType == 'audiobook') {
+    if (entityType === 'audiobook') {
       cards = this.state.bookCards;
-    } else if (entityType == 'movie') {
+    } else if (entityType === 'movie') {
       cards = this.state.movieCards;
     }
     let entity = _.find(cards, (obj) => {
       return obj.trackId === entityId || obj.collectionId === entityId || obj.id === entityId;
     });
     // Push favorites into the favorites state
-    console.log(entity);
     if (!entity.isFavorite) {
       entity.isFavorite = true;
       this.state.favoriteCards.push(entity);

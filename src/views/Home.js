@@ -10,9 +10,7 @@ import {
   CarouselCaption
 } from 'reactstrap';
 
-
-
-
+// This class represents the home page, which has a carousel of movies
 class Home extends Component {
   constructor(props) {
     super(props);

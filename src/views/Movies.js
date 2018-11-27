@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Header } from '../components/headers/Headers';
 import { CardList } from '../components/cards/Cards';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 class Movies extends Component {
   constructor(props) {
@@ -37,7 +36,6 @@ class Movies extends Component {
 
   filterGenre(id) {
     let url = `https://api.themoviedb.org/3/discover/movie?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=${id}`;
-    console.log(url);
     this.setState({ isLoading: true });
     fetch(url).then((res) => {
       return res.json();

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { CardView } from '../components/cards/Cards';
 
+// This class represents the favorites page
 class Favorites extends Component {
   render() {
     let objs = this.props.objs;

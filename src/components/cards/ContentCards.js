@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import styles from '../styles/card-style.css'
 import {
   Card,
   CardText,
@@ -8,12 +7,14 @@ import {
   Button
 } from 'reactstrap';
 
+// Each card renders differently based on their media type because of their different data
 class ContentCard extends Component {
   constructor(props) {
     super(props);
     this.handleFavorites = this.handleFavorites.bind(this);
   }
 
+  // Each card has a favorites button
   handleFavorites = () => {
     this.props.handleFavorites(this.props.obj.id, this.props.obj.mediaType);
   }
@@ -21,6 +22,8 @@ class ContentCard extends Component {
   render() {
     let obj = this.props.obj;
     let card;
+
+    // If a card has been favorited, change its button view
     let button = <Button color='btn btn-success' onClick={this.handleFavorites}>Add to favorites</Button>;
     if (obj.isFavorite) {
       button = <Button color='btn btn-danger' onClick={this.handleFavorites}>Remove from favorites</Button>
