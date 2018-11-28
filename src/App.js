@@ -93,7 +93,7 @@ class App extends Component {
       entity.isFavorite = false;
       this.setState((currentState) => {
         _.remove(currentState.favoriteCards, (obj) => {
-          return obj.trackId === entityId || obj.collectionId === entityId;
+          return obj.trackId === entityId || obj.collectionId === entityId || obj.id === entityId;
         });
         let state = {
           favoriteCards: currentState.favoriteCards
