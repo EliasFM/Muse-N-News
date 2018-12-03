@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import _ from 'lodash';
+import firebase from 'firebase/app';
 
 // User-defined files
 import { FixedNavBar } from './components/navbars/Navbars';
@@ -10,6 +11,7 @@ import { Favorites } from './views/Favorites';
 import './App.css';
 import { Home } from './views/Home';
 import { Movies } from './views/Movies';
+import SignUpView from './views/SignUpView';
 
 class App extends Component {
   constructor(props) {
@@ -28,20 +30,38 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // Make a call to get popular movies and populate the data required for the carousel
-    let url = "https://api.themoviedb.org/3/movie/popular?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&page=1";
-    this.setState({ isLoading: true });
-    fetch(url).then((res) => {
-      return res.json();
-    }).then((data) => {
-      this.setState({ homeMovies: data.results });
-      if (this.state.movieCards.length === 0) {
-        this.setState({ movieCards: data.results });
+    // Check if user is logged in
+    this.authUnregFunc = firebase.auth().onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        this.setState({
+          user: firebaseUser,
+          loading: false
+        });
+        // Make a call to get popular movies and populate the data required for the carousel
+        let url = "https://api.themoviedb.org/3/movie/popular?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&page=1";
+        this.setState({ isLoading: true });
+        fetch(url).then((res) => {
+          return res.json();
+        }).then((data) => {
+          this.setState({ homeMovies: data.results });
+          if (this.state.movieCards.length === 0) {
+            this.setState({ movieCards: data.results });
+          }
+        }).catch((err) => {
+        }).then(() => {
+          this.setState({ isLoading: false });
+        });
+      } else {
+        this.setState({
+          user: null,
+          loading: false
+        });
       }
-    }).catch((err) => {
-    }).then(() => {
-      this.setState({ isLoading: false });
     });
+  }
+
+  componentWillUnmount() {
+    this.authUnregFunc();
   }
 
   // This handles searching and sets the right card states to re-render cards
@@ -113,7 +133,35 @@ class App extends Component {
     this.setState({ currentTab: tab });
   }
 
+  handleSignUp = (email, password, passwordRepeat, username) => {
+    this.setState({ errorMessage: null });
+    console.log(email);
+    console.log(password);
+    console.log(passwordRepeat);
+    console.log(username);
+    this.setState({ errorMessage: 'Testing error' });
+  }
+
+  handleSignIn = (email, password) => {
+    this.setState({ errorMessage: null });
+    console.log(email);
+    console.log(password);
+  }
+
   render() {
+    if (this.state.loading) {
+      return (
+        <div className="text-center">
+          <i className="fa fa-spinner fa-spin fa-3x" aria-label="Connecting..."></i>
+        </div>
+      );
+    }
+
+    // Check if user is logged in. If not, show them the sign up form
+    if (!this.state.user) {
+      return <SignUpView handleSignUp={this.handleSignUp} handleSignIn={this.handleSignIn} errorMessage={this.state.errorMessage} />
+    }
+
     let homeView = (routerProps) => {
       return <Home {...routerProps} title={'Looking for entertainment?'} subtitle={'Find music, movies, books, and more of your favorite genre.'} objs={this.state.homeMovies} />
     }
