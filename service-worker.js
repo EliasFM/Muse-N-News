@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/stage-0-topic-proposal-yulongtan/precache-manifest.4dc7848b2c5c6fa8bfd2f2f374195a48.js"
+  "/stage-0-topic-proposal-yulongtan/precache-manifest.f91b891e99414615b7bd46dc03f842bd.js"
 );
 
 workbox.clientsClaim();
