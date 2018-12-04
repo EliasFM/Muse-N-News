@@ -18,7 +18,7 @@ class Movies extends Component {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({ value: event.target.value });
   }
 
   handleSubmit(event) {
@@ -32,7 +32,7 @@ class Movies extends Component {
     }));
   }
 
-  
+
 
   filterGenre(id) {
     let url = `https://api.themoviedb.org/3/discover/movie?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=${id}`;
@@ -40,7 +40,7 @@ class Movies extends Component {
     fetch(url).then((res) => {
       return res.json();
     }).then((data) => {
-      this.setState({movies: data.results}); // TODO: MOVIE DATA
+      this.setState({ movies: data.results }); // TODO: MOVIE DATA
     }).catch((err) => {
       console.log(`Error: ${err}`);
     }).then(() => {
@@ -61,41 +61,39 @@ class Movies extends Component {
       <div>
         <Header title={this.props.title} subtitle={this.props.subtitle} />
         <div id='main-content'>
-        <div>
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Filter by Genre:
-          <select value={this.state.value} onChange={this.handleChange}>
-            <option value="28">Action</option>
-            <option value="12">Adventure</option>
-            <option value="16">Animation</option>
-            <option value="35">Comedy</option>
-            <option value="80">Crime</option>
-            <option value="99">Documentary</option>
-            <option value="18">Drama</option>
-            <option value="10751">Family</option>
-            <option value="14">Fantasy</option>
-            <option value="36">History</option>
-            <option value="27">Horror</option>
-            <option value="10402">Music</option>
-            <option value="9648">Mystery</option>
-            <option value="10749">Romance</option>
-            <option value="878">Science Fiction</option>
-            <option value="10770">TV Movie</option>
-            <option value="53">Thriller</option>
-            <option value="10752">War</option>
-            <option value="37">Western</option>
-          </select>
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-      </div>
-            <div id='content'>
-              {cards}
-            </div>
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <label>Filter by Genre:
+                <select value={this.state.value} onChange={this.handleChange}>
+                  <option value="28">Action</option>
+                  <option value="12">Adventure</option>
+                  <option value="16">Animation</option>
+                  <option value="35">Comedy</option>
+                  <option value="80">Crime</option>
+                  <option value="99">Documentary</option>
+                  <option value="18">Drama</option>
+                  <option value="10751">Family</option>
+                  <option value="14">Fantasy</option>
+                  <option value="36">History</option>
+                  <option value="27">Horror</option>
+                  <option value="10402">Music</option>
+                  <option value="9648">Mystery</option>
+                  <option value="10749">Romance</option>
+                  <option value="878">Science Fiction</option>
+                  <option value="10770">TV Movie</option>
+                  <option value="53">Thriller</option>
+                  <option value="10752">War</option>
+                  <option value="37">Western</option>
+                </select>
+              </label>
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
+          <div id='content'>
+            {cards}
+          </div>
         </div>
       </div>
-      
     )
   }
 }

@@ -3,6 +3,10 @@ import {
   Button,
   Form,
   Input,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 
 // This is the search bar that lives on the right side of the nav bar
@@ -11,6 +15,7 @@ class NavForm extends Component {
     super(props);
     this.search = this.search.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.toggle = this.toggle.bind(this);
     this.state = {
       term: ''
     };
@@ -20,12 +25,25 @@ class NavForm extends Component {
   search() {
     let searchTerm = this.state.term;
     this.props.searchCallback(this.props.currentTab, searchTerm);
-    this.setState({ term: '' });
+    this.setState({
+      term: '',
+      dropdownOpen: false,
+    });
   }
 
   // Handles the input of the search
   handleInput = (event) => {
     this.setState({ term: event.target.value });
+  }
+
+  // Signs the user out
+  handleSignOut = () => {
+    this.props.handleSignOut();
+  }
+
+  // Toggles the button dropdown
+  toggle = () => {
+    this.setState({ dropdownOpen: !this.state.dropdownOpen })
   }
 
   render() {
@@ -46,6 +64,16 @@ class NavForm extends Component {
             <Button onClick={this.search} id="search-button" outline color='success' className="my-2 my-sm-0">
               {loader}Search
             </Button>
+          </div>
+          <div className="col">
+            <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+              <DropdownToggle caret color='primary'>
+                {this.props.currentUser.displayName}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={this.handleSignOut}>Sign Out</DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
           </div>
         </div>
       </Form>
