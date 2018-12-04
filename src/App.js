@@ -195,6 +195,7 @@ class App extends Component {
       return <SignUpView handleSignUp={this.handleSignUp} handleSignIn={this.handleSignIn} errorMessage={this.state.errorMessage} />
     }
 
+    // TODO: Refactor this into views so App.js looks less convoluted??
     let homeView = (routerProps) => {
       return <Home {...routerProps} title={'Looking for entertainment?'} subtitle={'Find music, movies, books, and more of your favorite genre.'} objs={this.state.homeMovies} />
     }
@@ -215,9 +216,10 @@ class App extends Component {
       return <Favorites {...routerProps} title={'Favorites'} subtitle={'Here are your favorites'} objs={this.state.favoriteCards} handleFavorites={this.handleFavorites} />
     }
 
+    // TODO: Within FixedNavBar, show the current user, and when clicked, show a dropdown that lets them sign out!
     return (
       <div>
-        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} />
+        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} />
         <Switch>
           <Route exact path='/' render={homeView} />
           <Route path='/music' render={musicView} />
