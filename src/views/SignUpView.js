@@ -10,7 +10,7 @@ export default class SignUpView extends Component {
         <Header title={`Welcome to ${AppName}.`} subtitle={`${AppDescription} Sign up today!`} />
         <div className='container'>
         {this.props.errorMessage && <p className="alert alert-danger">{this.props.errorMessage}</p>}
-          <SignUpForm handleSignUp={this.props.handleSignUp} errorMessage={this.props.errorMessage}/>
+          <SignUpForm handleSignUp={this.props.handleSignUp} handleSignIn={this.props.handleSignIn} errorMessage={this.props.errorMessage} isLoading={this.props.isLoading} />
         </div>
       </div>
     )

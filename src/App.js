@@ -29,8 +29,8 @@ class App extends Component {
     };
   }
 
+  // When the component mounts, check if the user is logged in
   componentDidMount() {
-    // Check if user is logged in
     this.authUnregFunc = firebase.auth().onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
         this.setState({
@@ -48,6 +48,7 @@ class App extends Component {
             this.setState({ movieCards: data.results });
           }
         }).catch((err) => {
+          console.log(err);
         }).then(() => {
           this.setState({ isLoading: false });
         });
@@ -60,6 +61,7 @@ class App extends Component {
     });
   }
 
+  // Unregister the auth listener when component unmounts
   componentWillUnmount() {
     this.authUnregFunc();
   }
@@ -129,17 +131,19 @@ class App extends Component {
     });
   }
 
+  // Tells the state which tab we're currently in
   handleTab = (tab) => {
     this.setState({ currentTab: tab });
   }
 
-  // TODO: Handle Firebase sign-up
+  // Handles the sign-up for Firebase
   handleSignUp = (email, password, passwordRepeat, username) => {
     this.setState({ errorMessage: null });
-    console.log(email);
-    console.log(password);
-    console.log(passwordRepeat);
-    console.log(username);
+    if (password !== passwordRepeat) {
+      this.setState({ errorMessage: 'passwords do not match' });
+      return;
+    }
+    this.setState({ isLoading: true });
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         return userCredentials.user;
@@ -149,7 +153,8 @@ class App extends Component {
           displayName: username
         }).then(() => {
           this.setState({
-            displayName: username
+            displayName: username,
+            isLoading: false
           });
         }).catch((err) => {
           this.setState({ errorMessage: err.message });
@@ -159,18 +164,19 @@ class App extends Component {
       });
   }
 
-  // TODO: Handle Firebase sign-in
+  // Handles the sign-in for Firebase
   handleSignIn = (email, password) => {
-    this.setState({ errorMessage: null });
-    console.log(email);
-    console.log(password);
+    this.setState({ errorMessage: null, isLoading: true });
     firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.setState({ isLoading: false });
+      })
       .catch((err) => {
         this.setState({ errorMessage: err.message });
       })
   }
 
-  // TODO: Handle Firebase sign-out
+  // Handles the sign-out for Firebase
   handleSignOut = () => {
     this.setState({ errorMessage: null });
     firebase.auth().signOut()
@@ -180,6 +186,7 @@ class App extends Component {
   }
 
   render() {
+    // TODO: Fix the logic for showing the loader if user is logged in
     /*
     if (this.state.loading) {
       return (
@@ -192,10 +199,10 @@ class App extends Component {
 
     // Check if user is logged in. If not, show them the sign up form
     if (!this.state.user) {
-      return <SignUpView handleSignUp={this.handleSignUp} handleSignIn={this.handleSignIn} errorMessage={this.state.errorMessage} />
+      return <SignUpView handleSignUp={this.handleSignUp} handleSignIn={this.handleSignIn} errorMessage={this.state.errorMessage} isLoading={this.state.isLoading} />
     }
 
-    // TODO: Refactor this into views so App.js looks less convoluted??
+    // Views for routes that need to be passed data
     let homeView = (routerProps) => {
       return <Home {...routerProps} title={'Looking for entertainment?'} subtitle={'Find music, movies, books, and more of your favorite genre.'} objs={this.state.homeMovies} />
     }
@@ -219,7 +226,7 @@ class App extends Component {
     // TODO: Within FixedNavBar, show the current user, and when clicked, show a dropdown that lets them sign out!
     return (
       <div>
-        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} />
+        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} />
         <Switch>
           <Route exact path='/' render={homeView} />
           <Route path='/music' render={musicView} />

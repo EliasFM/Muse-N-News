@@ -42,7 +42,13 @@ class SignUpForm extends Component {
   }
 
   render() {
-    console.log(this.state);
+    // Shows the spinner when a request is being made
+    let loader = <i className='d-none fa fa-spinner fa-spin fa-fw'
+      aria-hidden='true' />;
+    if (this.props.isLoading) {
+      loader = <i className='fa fa-spinner fa-spin fa-fw'
+        aria-hidden='true' />
+    }
     if (this.state.signup) {
       return (
         <Form>
@@ -70,7 +76,7 @@ class SignUpForm extends Component {
             <Input onInput={this.handleChange} type="text" name="username" id="username-field" placeholder="Enter a cool username" />
           </FormGroup>
 
-          <Button color='primary' onClick={this.handleSignUp}>Sign Up</Button>
+          <Button color='primary' onClick={this.handleSignUp}>{loader}Sign Up</Button>
           <FormText color='muted'>
             Already have an account? Sign in <Link to='/' onClick={this.swap}>here</Link>.
           </FormText>
@@ -91,7 +97,7 @@ class SignUpForm extends Component {
             <Input onInput={this.handleChange} type="password" name="password" id="password-field" placeholder="Password" />
           </FormGroup>
 
-          <Button color='primary' onClick={this.handleSignIn}>Sign In</Button>
+          <Button color='primary' onClick={this.handleSignIn}>{loader}Sign In</Button>
           <FormText color='muted'>
             Don't have an account? Sign up <Link to='/' onClick={this.swap}>here</Link>.
           </FormText>
