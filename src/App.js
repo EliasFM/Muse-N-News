@@ -43,6 +43,7 @@ class App extends Component {
       this.setState({ isLoading: false });
     });
   }
+  
 
   // This handles searching and sets the right card states to re-render cards
   search = (option, term) => {

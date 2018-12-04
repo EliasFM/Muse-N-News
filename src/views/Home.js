@@ -58,6 +58,7 @@ class Home extends Component {
           onExiting={this.onExiting}
           onExited={this.onExited}
           key={item.id}
+          className={styles.contain}
         >
           <img className={styles.image} src={item.poster} alt={item.title} />
           <CarouselCaption className={styles.caption} captionText={item.overview} captionHeader={item.title} />

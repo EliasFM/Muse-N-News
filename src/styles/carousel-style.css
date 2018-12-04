@@ -2,11 +2,20 @@
     position: relative;
     color: black;
     left: 0%;
+    padding: auto;
 }
 
 :local(.image) {
     margin: 0 auto;
     position: relative;
-    left: 25%;
+    width: 100%;
+}
+
+:local(.contain) {
+    margin: auto;
+    background-color: rgba(0, 0, 0, .2);
+    border-radius:25px;
+    height: 60%;
+    width: 60%;
 }
 
