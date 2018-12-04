@@ -133,22 +133,54 @@ class App extends Component {
     this.setState({ currentTab: tab });
   }
 
+  // TODO: Handle Firebase sign-up
   handleSignUp = (email, password, passwordRepeat, username) => {
     this.setState({ errorMessage: null });
     console.log(email);
     console.log(password);
     console.log(passwordRepeat);
     console.log(username);
-    this.setState({ errorMessage: 'Testing error' });
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        return userCredentials.user;
+      })
+      .then((user) => {
+        user.updateProfile({
+          displayName: username
+        }).then(() => {
+          this.setState({
+            displayName: username
+          });
+        }).catch((err) => {
+          this.setState({ errorMessage: err.message });
+        })
+      }).catch((err) => {
+        this.setState({ errorMessage: err.message })
+      });
   }
 
+  // TODO: Handle Firebase sign-in
   handleSignIn = (email, password) => {
     this.setState({ errorMessage: null });
     console.log(email);
     console.log(password);
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .catch((err) => {
+        this.setState({ errorMessage: err.message });
+      })
+  }
+
+  // TODO: Handle Firebase sign-out
+  handleSignOut = () => {
+    this.setState({ errorMessage: null });
+    firebase.auth().signOut()
+      .catch((err) => {
+        this.setState({ error: err.message });
+      })
   }
 
   render() {
+    /*
     if (this.state.loading) {
       return (
         <div className="text-center">
@@ -156,6 +188,7 @@ class App extends Component {
         </div>
       );
     }
+    */
 
     // Check if user is logged in. If not, show them the sign up form
     if (!this.state.user) {

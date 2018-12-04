@@ -42,6 +42,7 @@ class SignUpForm extends Component {
   }
 
   render() {
+    console.log(this.state);
     if (this.state.signup) {
       return (
         <Form>
