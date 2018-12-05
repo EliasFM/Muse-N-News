@@ -8,6 +8,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
 // This is the search bar that lives on the right side of the nav bar
 class NavForm extends Component {
@@ -71,6 +72,10 @@ class NavForm extends Component {
                 {this.props.currentUser.displayName}
               </DropdownToggle>
               <DropdownMenu>
+                {/* Add link to navigate to favorites */}
+                <DropdownItem>
+                  <NavLink to='/favorites' id='favorites'>Favorites</NavLink>
+                </DropdownItem>
                 <DropdownItem onClick={this.handleSignOut}>Sign Out</DropdownItem>
               </DropdownMenu>
             </ButtonDropdown>

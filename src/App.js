@@ -52,6 +52,12 @@ class App extends Component {
         }).then(() => {
           this.setState({ isLoading: false });
         });
+
+        // Check for user favorites
+        this.favRef = firebase.database().ref('favorites');
+        this.favRef.on('value', (snapshot) => {
+          this.setState({ favoriteCards: snapshot.val() });
+        });
       } else {
         this.setState({
           user: null,
@@ -60,11 +66,12 @@ class App extends Component {
       }
     });
   }
-  
+
 
   // Unregister the auth listener when component unmounts
   componentWillUnmount() {
     this.authUnregFunc();
+    this.favRef.off();
   }
 
   // This handles searching and sets the right card states to re-render cards
@@ -98,16 +105,43 @@ class App extends Component {
   }
 
   // This adds and removes from the favorites state, which renders the favorites cards
-  handleFavorites = (entityId, entityType) => {
+  handleFavorites = (obj) => {
+    let entityId = obj.id;
+    let entityType = obj.mediaType;
+    console.log(entityId);
+    console.log(entityType);
+    console.log(this.state.favoriteCards);
+    
     let cards = this.state.musicCards;
     if (entityType === 'audiobook') {
       cards = this.state.bookCards;
     } else if (entityType === 'movie') {
       cards = this.state.movieCards;
     }
-    let entity = _.find(cards, (obj) => {
-      return obj.trackId === entityId || obj.collectionId === entityId || obj.id === entityId;
+    let rawDataObject = _.find(cards, (obj) => {
+      return obj.id === entityId;
     });
+    console.log(rawDataObject);
+    console.log(obj);
+
+    if (!obj.isFavorite) {
+      obj.isFavorite = true;
+      rawDataObject.isFavorite = true;
+      // Push to Firebase
+      firebase.database().ref('favorites').push(obj);
+    } else {
+      obj.isFavorite = false;
+
+      // TODO: This does not toggle off lol. There's no FirebaseId here. It only works in the favorites itself
+      rawDataObject.isFavorite = false;
+      // Remove from Firebase
+      console.log(`favorites/${obj.firebaseId}`);
+      let specificFavRef = firebase.database().ref(`favorites/${obj.firebaseId}`);
+      specificFavRef.set(null);
+    }
+
+
+    /*
     // Push favorites into the favorites state
     if (!entity.isFavorite) {
       entity.isFavorite = true;
@@ -130,6 +164,7 @@ class App extends Component {
       };
       return state;
     });
+    */
   }
 
   // Tells the state which tab we're currently in
@@ -221,10 +256,25 @@ class App extends Component {
     }
 
     let favoritesView = (routerProps) => {
-      return <Favorites {...routerProps} title={'Favorites'} subtitle={'Here are your favorites'} objs={this.state.favoriteCards} handleFavorites={this.handleFavorites} />
+      console.log(this.state.favoriteCards);
+      let favoriteObjects;
+      if (this.state.favoriteCards) {
+        favoriteObjects = Object.keys(this.state.favoriteCards);
+        favoriteObjects = favoriteObjects.map((key) => {
+          let fav = this.state.favoriteCards[key];
+          fav.firebaseId = key;
+          return fav;
+        });
+      }
+      console.log(favoriteObjects);
+      // When objects get deleted in Firebase, it will set the state to null, and that
+      // will cause some rendering issues, so we set it to an empty array.
+      if (favoriteObjects === null || favoriteObjects === undefined) {
+        favoriteObjects = [];
+      }
+      return <Favorites {...routerProps} title={'Favorites'} subtitle={'Here are your favorites'} objs={favoriteObjects} handleFavorites={this.handleFavorites} favFlag={true} />
     }
 
-    // TODO: Within FixedNavBar, show the current user, and when clicked, show a dropdown that lets them sign out!
     return (
       <div>
         <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} />

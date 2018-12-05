@@ -16,7 +16,8 @@ class ContentCard extends Component {
 
   // Each card has a favorites button
   handleFavorites = () => {
-    this.props.handleFavorites(this.props.obj.id, this.props.obj.mediaType);
+    //this.props.handleFavorites(this.props.obj.id, this.props.obj.mediaType);
+    this.props.handleFavorites(this.props.obj);
   }
 
   render() {

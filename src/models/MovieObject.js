@@ -25,7 +25,7 @@ const MovieObject = (obj) => {
     src: path,
     voteAverage: obj.vote_average,
     genre: results.join(', '),
-    isFavorite: obj.isFavorite
+    isFavorite: obj.isFavorite,
   }
 };
 

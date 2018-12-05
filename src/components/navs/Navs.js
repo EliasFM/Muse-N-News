@@ -26,9 +26,6 @@ class LeftNav extends Component {
         <NavItem onClick={this.handleTab}>
           <NavLink to='/books' id='audiobook' className='nav-link' activeClassName='activeLink'>Books</NavLink>
         </NavItem>
-        <NavItem onClick={this.handleTab}>
-          <NavLink to='/favorites' id='favorites' className='nav-link' activeClassName='activeLink'>Favorites</NavLink>
-        </NavItem>
       </Nav>
     )
   }
