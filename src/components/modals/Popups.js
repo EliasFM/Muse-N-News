@@ -19,7 +19,7 @@ class ErrorPopup extends Component {
           {this.props.error}
           </ModalBody>
         <ModalFooter>
-          <Button color="danger" onClick={this.toggle}>Do Something</Button>
+          <Button color="danger" onClick={this.toggle}>Close</Button>
         </ModalFooter>
       </Modal>
     )
