@@ -29,7 +29,7 @@ class App extends Component {
       favoriteCards: [],
       homeMovies: [],
       currentTab: 'home',
-      showModal: false,
+      showModal: false
     };
   }
 
@@ -103,9 +103,9 @@ class App extends Component {
       }
     }).catch((err) => {
       console.log(`Error: ${err}`);
-      this.setState({ 
+      this.setState({
         showModal: true,
-        modalError: err.message 
+        modalError: err.message
       });
     }).then(() => {
       this.setState({ isLoading: false });
@@ -134,14 +134,14 @@ class App extends Component {
 
     if (!obj.isFavorite) {
       obj.isFavorite = true;
-      rawDataObject.isFavorite = true;
+      //rawDataObject.isFavorite = true;
       // Push to Firebase
       firebase.database().ref('favorites').push(obj);
     } else {
       obj.isFavorite = false;
 
       // TODO: This does not toggle off lol. There's no FirebaseId here. It only works in the favorites itself
-      rawDataObject.isFavorite = false;
+      //rawDataObject.isFavorite = false;
       // Remove from Firebase
       console.log(`favorites/${obj.firebaseId}`);
       let specificFavRef = firebase.database().ref(`favorites/${obj.firebaseId}`);
@@ -233,6 +233,7 @@ class App extends Component {
     this.setState({ showModal: !this.state.showModal });
   }
 
+
   render() {
     // TODO: Fix the logic for showing the loader if user is logged in
     /*
@@ -252,23 +253,49 @@ class App extends Component {
 
     // Views for routes that need to be passed data
     let homeView = (routerProps) => {
-      return <Home {...routerProps} title={'Looking for entertainment?'} subtitle={'Find music, movies, books, and more of your favorite genre.'} objs={this.state.homeMovies} />
+      return (
+        <div>
+          <FixedNavBar isMain={true} searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} />
+          <Home {...routerProps} title={'Looking for entertainment?'} subtitle={'Find music, movies, books, and more of your favorite genre.'} objs={this.state.homeMovies} />
+        </div>
+      )
     }
 
     let musicView = (routerProps) => {
-      return <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'song'} />
+      return (
+        <div>
+          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
+          <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'song'} />
+        </div>
+      )
     }
 
     let moviesView = (routerProps) => {
-      return <Movies {...routerProps} title={'Movies'} subtitle={'Find the movie you\'ve been looking for.'} objs={this.state.movieCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'movie'} />
+      return (
+        <div>
+          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
+          <Movies {...routerProps} title={'Movies'} subtitle={'Find the movie you\'ve been looking for.'} objs={this.state.movieCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'movie'} />
+        </div>
+      )
     }
 
     let booksView = (routerProps) => {
-      return <CardView {...routerProps} title={'Books'} subtitle={'Listen to your favorite book series through audiobooks.'} objs={this.state.bookCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'audiobook'} />
+
+      return (
+        <div>
+          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
+          <CardView {...routerProps} title={'Books'} subtitle={'Listen to your favorite book series through audiobooks.'} objs={this.state.bookCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'audiobook'} />
+        </div>
+      )
     }
 
     let newsView = (routerProps) => {
-      return <NewsView {...routerProps}  searchCallback={this.search} handleFavorites={this.handleFavorites} option={'news'} />
+      return (
+        <div>
+        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={true} />
+        <NewsView {...routerProps}  searchCallback={this.search} handleFavorites={this.handleFavorites} option={'news'} />
+       </div>
+      )
     }
 
     let favoritesView = (routerProps) => {
@@ -288,7 +315,13 @@ class App extends Component {
       if (favoriteObjects === null || favoriteObjects === undefined) {
         favoriteObjects = [];
       }
-      return <Favorites {...routerProps} title={'Favorites'} subtitle={'Here are your favorites'} objs={favoriteObjects} handleFavorites={this.handleFavorites} favFlag={true} />
+
+      return (
+        <div>
+          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={true} />
+          <Favorites {...routerProps} title={'Favorites'} subtitle={'Here are your favorites'} objs={favoriteObjects} handleFavorites={this.handleFavorites} favFlag={true} />
+        </div>
+      )
     }
 
     // Show an error when api call fails
@@ -296,10 +329,11 @@ class App extends Component {
     if (this.state.showModal) {
       modal = <ErrorPopup showModal={this.state.showModal} closeModalCallback={this.closeModal} error={this.state.modalError} />
     }
+
+
     return (
       <div>
         {modal}
-        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} />
         <Switch>
           <Route exact path='/' render={homeView} />
           <Route path='/music' render={musicView} />
