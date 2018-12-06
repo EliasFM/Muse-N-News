@@ -144,7 +144,7 @@ class App extends Component {
       //rawDataObject.isFavorite = false;
       // Remove from Firebase
       console.log(`favorites/${obj.firebaseId}`);
-      let specificFavRef = firebase.database().ref(`favorites/${obj.firebaseId}`);
+      let specificFavRef = firebase.database().ref(`favorites/${this.state.user.uid}/${obj.firebaseId}`);
       specificFavRef.set(null);
     }
 
