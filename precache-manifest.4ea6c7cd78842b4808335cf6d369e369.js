@@ -8,23 +8,23 @@ self.__precacheManifest = [
     "url": "/stage-0-topic-proposal-yulongtan/static/js/runtime~main.9c290fe7.js"
   },
   {
-    "revision": "9d2cbed539026ffe64e8",
-    "url": "/stage-0-topic-proposal-yulongtan/static/js/main.9d2cbed5.chunk.js"
+    "revision": "1017c12e42c0c3e98e4b",
+    "url": "/stage-0-topic-proposal-yulongtan/static/js/main.1017c12e.chunk.js"
   },
   {
-    "revision": "d6721bccd35da315dcb3",
-    "url": "/stage-0-topic-proposal-yulongtan/static/js/1.d6721bcc.chunk.js"
+    "revision": "359b84edf2b6e8f8c510",
+    "url": "/stage-0-topic-proposal-yulongtan/static/js/1.359b84ed.chunk.js"
   },
   {
-    "revision": "9d2cbed539026ffe64e8",
-    "url": "/stage-0-topic-proposal-yulongtan/static/css/main.d4ac2216.chunk.css"
+    "revision": "1017c12e42c0c3e98e4b",
+    "url": "/stage-0-topic-proposal-yulongtan/static/css/main.c77f3274.chunk.css"
   },
   {
-    "revision": "d6721bccd35da315dcb3",
+    "revision": "359b84edf2b6e8f8c510",
     "url": "/stage-0-topic-proposal-yulongtan/static/css/1.c247a53f.chunk.css"
   },
   {
-    "revision": "6b51b49797f700b9e0f0bc59ed781ccc",
+    "revision": "e6b45e893b6c45d5913dfa782c8728fa",
     "url": "/stage-0-topic-proposal-yulongtan/index.html"
   }
 ];
