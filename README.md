@@ -8,8 +8,8 @@ The site can be viewed [here](https://info340c-au18.github.io/stage-0-topic-prop
 - For sure
     - Add clicks to the cards to have relevant articles about them (main functionality)
     - Move favorites under user and save their favorites to firebase
-    - Edit 'enter key' for search so that it searches and doesn't refresh the page
-    - Remove search and search button from home page (stage 4 - together)
+    - Edit 'enter key' for search so that it searches and doesn't refresh the page [Done]
+    - Remove search and search button from home page (stage 4 - together) [Done]
 - If possible
     - Add song previews (for stage 4)
     - Add TV section
