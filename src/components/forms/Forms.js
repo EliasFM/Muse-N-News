@@ -63,19 +63,16 @@ class NavForm extends Component {
         aria-hidden='true' />
     }
     return (
-      <Form>
+      <Form onSubmit={this.handleSubmit} >
         <div className="form-row">
           <div className="col">
-            <form onSubmit={this.handleSubmit} aria-label='search bar for movie names and press enter to search' id="search-form">
-              <Input onChange={this.handleChange} id="search-input" className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
-            </form>
-            
+            <Input onChange={this.handleChange} id="search-input" className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
           </div>
-          {/* <div className="col">
+          <div className="col">
             <Button onClick={this.search} id="search-button" outline color='success' className="my-2 my-sm-0">
               {loader}Search
             </Button>
-          </div> */}
+          </div>
           <div className="col">
             <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
               <DropdownToggle caret color='primary'>
