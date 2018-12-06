@@ -57,7 +57,7 @@ class App extends Component {
         });
 
         // Check for user favorites
-        this.favRef = firebase.database().ref('favorites');
+        this.favRef = firebase.database().ref(`favorites/${this.state.user.uid}`);
         this.favRef.on('value', (snapshot) => {
           this.setState({ favoriteCards: snapshot.val() });
         });
@@ -135,7 +135,7 @@ class App extends Component {
       obj.isFavorite = true;
       //rawDataObject.isFavorite = true;
       // Push to Firebase
-      firebase.database().ref('favorites').push(obj);
+      firebase.database().ref(`favorites/${this.state.user.uid}`).push(obj);
     } else {
       obj.isFavorite = false;
 
