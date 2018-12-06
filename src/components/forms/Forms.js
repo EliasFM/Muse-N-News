@@ -8,13 +8,15 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
 // This is the search bar that lives on the right side of the nav bar
 class NavForm extends Component {
   constructor(props) {
     super(props);
     this.search = this.search.bind(this);
-    this.handleInput = this.handleInput.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.toggle = this.toggle.bind(this);
     this.state = {
       term: ''
@@ -32,8 +34,14 @@ class NavForm extends Component {
   }
 
   // Handles the input of the search
-  handleInput = (event) => {
+  handleChange = (event) => {
     this.setState({ term: event.target.value });
+  }
+
+  // Handles searching on pressing enter 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.search();
   }
 
   // Signs the user out
@@ -55,10 +63,10 @@ class NavForm extends Component {
         aria-hidden='true' />
     }
     return (
-      <Form>
+      <Form onSubmit={this.handleSubmit} >
         <div className="form-row">
           <div className="col">
-            <Input onInput={this.handleInput} id="search-input" className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
+            <Input onChange={this.handleChange} id="search-input" className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
           </div>
           <div className="col">
             <Button onClick={this.search} id="search-button" outline color='success' className="my-2 my-sm-0">
@@ -71,6 +79,10 @@ class NavForm extends Component {
                 {this.props.currentUser.displayName}
               </DropdownToggle>
               <DropdownMenu>
+                {/* Add link to navigate to favorites */}
+                <DropdownItem>
+                  <NavLink to='/favorites' id='favorites'>Favorites</NavLink>
+                </DropdownItem>
                 <DropdownItem onClick={this.handleSignOut}>Sign Out</DropdownItem>
               </DropdownMenu>
             </ButtonDropdown>

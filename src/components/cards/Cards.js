@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase from 'firebase/app';
 import { SongObject } from '../../models/SongObject';
 import { AudioBookObject } from '../../models/AudioBookObject';
 import { MovieObject } from '../../models/MovieObject';
@@ -21,7 +22,7 @@ class CardView extends Component {
         <Header title={this.props.title} subtitle={this.props.subtitle} />
         <div id='main-content'>
           <div id='content'>
-            <CardList objs={this.props.objs} handleFavorites={this.props.handleFavorites} />
+            <CardList objs={this.props.objs} handleFavorites={this.props.handleFavorites} favFlag={this.props.favFlag} />
           </div>
         </div>
       </div>
@@ -31,17 +32,20 @@ class CardView extends Component {
 
 // Shows a list of <ContentCard>
 class CardList extends Component {
+
   render() {
     let objs = this.props.objs;
     // Splits each object into their own card data, because the data is inherently different.
     objs = objs.map((obj) => {
-      let entity;
-      if (obj.wrapperType === 'track') {
-        entity = SongObject(obj);
-      } else if (obj.wrapperType === 'audiobook') {
-        entity = AudioBookObject(obj);
-      } else {
-        entity = MovieObject(obj);
+      let entity = obj;
+      if (!this.props.favFlag) {
+        if (obj.wrapperType === 'track') {
+          entity = SongObject(obj);
+        } else if (obj.wrapperType === 'audiobook') {
+          entity = AudioBookObject(obj);
+        } else {
+          entity = MovieObject(obj);
+        }
       }
       return <ContentCard key={entity.id} obj={entity} handleFavorites={this.props.handleFavorites} />
     });

@@ -29,12 +29,16 @@ footer {
     margin-top: 1em;
 }
 
-.nav-item, .mb-4:hover {
+.nav-item, .mb-4:hover, button.dropdown-item {
     cursor: pointer;
 }
 
 .card-hover {
     border-color: aquamarine;
+}
+
+#favorites {
+    color: black;
 }
 
 .nav-item a {
