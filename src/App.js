@@ -12,6 +12,7 @@ import './App.css';
 import { Home } from './views/Home';
 import { Movies } from './views/Movies';
 import SignUpView from './views/SignUpView';
+import { ErrorPopup } from './components/modals/Popups';
 
 class App extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class App extends Component {
     this.search = this.search.bind(this);
     this.handleFavorites = this.handleFavorites.bind(this);
     this.handleTab = this.handleTab.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     this.state = {
       musicCards: [],
       movieCards: [],
@@ -26,6 +28,7 @@ class App extends Component {
       favoriteCards: [],
       homeMovies: [],
       currentTab: 'home',
+      showModal: false,
     };
   }
 
@@ -99,6 +102,10 @@ class App extends Component {
       }
     }).catch((err) => {
       console.log(`Error: ${err}`);
+      this.setState({ 
+        showModal: true,
+        modalError: err.message 
+      });
     }).then(() => {
       this.setState({ isLoading: false });
     });
@@ -111,7 +118,7 @@ class App extends Component {
     console.log(entityId);
     console.log(entityType);
     console.log(this.state.favoriteCards);
-    
+
     let cards = this.state.musicCards;
     if (entityType === 'audiobook') {
       cards = this.state.bookCards;
@@ -221,6 +228,10 @@ class App extends Component {
       })
   }
 
+  closeModal = () => {
+    this.setState({ showModal: !this.state.showModal });
+  }
+
   render() {
     // TODO: Fix the logic for showing the loader if user is logged in
     /*
@@ -275,8 +286,14 @@ class App extends Component {
       return <Favorites {...routerProps} title={'Favorites'} subtitle={'Here are your favorites'} objs={favoriteObjects} handleFavorites={this.handleFavorites} favFlag={true} />
     }
 
+    // Show an error when api call fails
+    let modal;
+    if (this.state.showModal) {
+      modal = <ErrorPopup showModal={this.state.showModal} closeModalCallback={this.closeModal} error={this.state.modalError} />
+    }
     return (
       <div>
+        {modal}
         <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} />
         <Switch>
           <Route exact path='/' render={homeView} />
