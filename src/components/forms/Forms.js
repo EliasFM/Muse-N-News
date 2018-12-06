@@ -15,7 +15,8 @@ class NavForm extends Component {
   constructor(props) {
     super(props);
     this.search = this.search.bind(this);
-    this.handleInput = this.handleInput.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.toggle = this.toggle.bind(this);
     this.state = {
       term: ''
@@ -33,8 +34,14 @@ class NavForm extends Component {
   }
 
   // Handles the input of the search
-  handleInput = (event) => {
+  handleChange = (event) => {
     this.setState({ term: event.target.value });
+  }
+
+  // Handles searching on pressing enter 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.search();
   }
 
   // Signs the user out
@@ -59,13 +66,16 @@ class NavForm extends Component {
       <Form>
         <div className="form-row">
           <div className="col">
-            <Input onInput={this.handleInput} id="search-input" className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
+            <form onSubmit={this.handleSubmit} aria-label='search bar for movie names and press enter to search' id="search-form">
+              <Input onChange={this.handleChange} id="search-input" className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
+            </form>
+            
           </div>
-          <div className="col">
+          {/* <div className="col">
             <Button onClick={this.search} id="search-button" outline color='success' className="my-2 my-sm-0">
               {loader}Search
             </Button>
-          </div>
+          </div> */}
           <div className="col">
             <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
               <DropdownToggle caret color='primary'>
