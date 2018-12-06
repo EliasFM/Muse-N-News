@@ -62,32 +62,54 @@ class NavForm extends Component {
       loader = <i className='fa fa-spinner fa-spin fa-fw'
         aria-hidden='true' />
     }
+    let search = '';
+    console.log(this.props.isMain);
+    if (this.props.isMain==='true'){
+      search = (<div className="form-row">
+      <div className="col">
+        <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+          <DropdownToggle caret color='primary'>
+            {this.props.currentUser.displayName}
+          </DropdownToggle>
+          <DropdownMenu>
+            {/* Add link to navigate to favorites */}
+            <DropdownItem>
+              <NavLink to='/favorites' id='favorites'>Favorites</NavLink>
+            </DropdownItem>
+            <DropdownItem onClick={this.handleSignOut}>Sign Out</DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
+      </div>
+    </div>)
+    }else{
+      search = (<div className="form-row">
+      <div className="col">
+        <Input onChange={this.handleChange} id="search-input" className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
+      </div>
+      <div className="col">
+        <Button onClick={this.search} id="search-button" outline color='success' className="my-2 my-sm-0">
+          {loader}Search
+        </Button>
+      </div>
+      <div className="col">
+        <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+          <DropdownToggle caret color='primary'>
+            {this.props.currentUser.displayName}
+          </DropdownToggle>
+          <DropdownMenu>
+            {/* Add link to navigate to favorites */}
+            <DropdownItem>
+              <NavLink to='/favorites' id='favorites'>Favorites</NavLink>
+            </DropdownItem>
+            <DropdownItem onClick={this.handleSignOut}>Sign Out</DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
+      </div>
+    </div>)
+    }
     return (
       <Form onSubmit={this.handleSubmit} >
-        <div className="form-row">
-          <div className="col">
-            <Input onChange={this.handleChange} id="search-input" className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
-          </div>
-          <div className="col">
-            <Button onClick={this.search} id="search-button" outline color='success' className="my-2 my-sm-0">
-              {loader}Search
-            </Button>
-          </div>
-          <div className="col">
-            <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-              <DropdownToggle caret color='primary'>
-                {this.props.currentUser.displayName}
-              </DropdownToggle>
-              <DropdownMenu>
-                {/* Add link to navigate to favorites */}
-                <DropdownItem>
-                  <NavLink to='/favorites' id='favorites'>Favorites</NavLink>
-                </DropdownItem>
-                <DropdownItem onClick={this.handleSignOut}>Sign Out</DropdownItem>
-              </DropdownMenu>
-            </ButtonDropdown>
-          </div>
-        </div>
+        {search}
       </Form>
     )
   }
