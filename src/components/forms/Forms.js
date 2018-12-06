@@ -64,7 +64,7 @@ class NavForm extends Component {
     }
     let search = '';
     console.log(this.props.isMain);
-    if (this.props.isMain==='true'){
+    if (this.props.isMain){
       search = (<div className="form-row">
       <div className="col">
         <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>

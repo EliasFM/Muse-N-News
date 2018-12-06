@@ -13,7 +13,6 @@ import { Home } from './views/Home';
 import { Movies } from './views/Movies';
 import SignUpView from './views/SignUpView';
 import { ErrorPopup } from './components/modals/Popups';
-// import { MovieSpecView } from './views/MovieSpecView';
 
 class App extends Component {
   constructor(props) {
@@ -290,10 +289,6 @@ class App extends Component {
       )
     }
 
-    // let movieSpecView = (routerProps) => {
-    //   this.setState({isMain:false});
-    //   return <MovieSpecView {...routerProps} title />
-    // }
 
     let favoritesView = (routerProps) => {
       console.log(this.state.favoriteCards);
@@ -331,7 +326,6 @@ class App extends Component {
           <Route path='/movies' render={moviesView} />
           <Route path='/books' render={booksView} />
           <Route path='/favorites' render={favoritesView} />
-          {/* <Route path='/movies/:movieID' render={movieSpecView}/> */}
           <Redirect to='/' />
         </Switch>
       </div>
