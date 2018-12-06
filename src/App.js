@@ -252,10 +252,9 @@ class App extends Component {
 
     // Views for routes that need to be passed data
     let homeView = (routerProps) => {
-      let cur= true;
       return (
         <div>
-          <FixedNavBar isMain={cur} searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} />
+          <FixedNavBar isMain={true} searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} />
           <Home {...routerProps} title={'Looking for entertainment?'} subtitle={'Find music, movies, books, and more of your favorite genre.'} objs={this.state.homeMovies}/>
         </div>
         )
