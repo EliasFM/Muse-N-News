@@ -88,7 +88,7 @@ class App extends Component {
       } else if (option === 'audiobook') {
         this.setState({ bookCards: data.results });
       } else {
-        this.setState({ movieCards: data.results }); // TODO: MOVIE DATA
+        this.setState({ movieCards: data.results }); 
       }
     }).catch((err) => {
       console.log(`Error: ${err}`);

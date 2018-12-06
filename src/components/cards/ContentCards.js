@@ -22,7 +22,7 @@ class ContentCard extends Component {
   render() {
     let obj = this.props.obj;
     let card;
-
+    let newsButton = <Button color='btn'>See Related News</Button>
     // If a card has been favorited, change its button view
     let button = <Button color='btn btn-success' onClick={this.handleFavorites}>Add to favorites</Button>;
     if (obj.isFavorite) {
@@ -48,6 +48,7 @@ class ContentCard extends Component {
                 </cite>
               </CardText>
               {button}
+              {newsButton}
             </div>
           </CardBody>
         </Card>
@@ -73,6 +74,7 @@ class ContentCard extends Component {
               </CardText>
               <CardText>Description: {obj.description}</CardText>
               {button}
+              {newsButton}
             </div>
           </CardBody>
         </Card>
@@ -93,6 +95,7 @@ class ContentCard extends Component {
                 <CardText>Description: {obj.overview}</CardText>
                 <CardText>Rating: {obj.voteAverage}</CardText>
                 {button}
+                {newsButton}
               </div>
             </CardBody>
           </Card>
