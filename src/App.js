@@ -11,6 +11,7 @@ import { Favorites } from './views/Favorites';
 import './App.css';
 import { Home } from './views/Home';
 import { Movies } from './views/Movies';
+import { NewsView } from './views/Articles';
 import SignUpView from './views/SignUpView';
 import { ErrorPopup } from './components/modals/Popups';
 
@@ -266,6 +267,10 @@ class App extends Component {
       return <CardView {...routerProps} title={'Books'} subtitle={'Listen to your favorite book series through audiobooks.'} objs={this.state.bookCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'audiobook'} />
     }
 
+    let newsView = (routerProps) => {
+      return <NewsView {...routerProps}  searchCallback={this.search} handleFavorites={this.handleFavorites} option={'news'} />
+    }
+
     let favoritesView = (routerProps) => {
       console.log(this.state.favoriteCards);
       let favoriteObjects;
@@ -301,6 +306,7 @@ class App extends Component {
           <Route path='/movies' render={moviesView} />
           <Route path='/books' render={booksView} />
           <Route path='/favorites' render={favoritesView} />
+          <Route path='/:media/:title/news' render={newsView} />
           <Redirect to='/' />
         </Switch>
       </div>
