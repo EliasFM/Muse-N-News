@@ -309,7 +309,7 @@ class App extends Component {
 
       return (
         <div>
-          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
+          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={true} />
           <Favorites {...routerProps} title={'Favorites'} subtitle={'Here are your favorites'} objs={favoriteObjects} handleFavorites={this.handleFavorites} favFlag={true} />
         </div>
       )
