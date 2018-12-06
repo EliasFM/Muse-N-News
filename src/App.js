@@ -11,6 +11,7 @@ import { Favorites } from './views/Favorites';
 import './App.css';
 import { Home } from './views/Home';
 import { Movies } from './views/Movies';
+import { NewsView } from './views/Articles';
 import SignUpView from './views/SignUpView';
 import { ErrorPopup } from './components/modals/Popups';
 
@@ -98,7 +99,7 @@ class App extends Component {
       } else if (option === 'audiobook') {
         this.setState({ bookCards: data.results });
       } else {
-        this.setState({ movieCards: data.results }); // TODO: MOVIE DATA
+        this.setState({ movieCards: data.results }); 
       }
     }).catch((err) => {
       console.log(`Error: ${err}`);
@@ -288,6 +289,14 @@ class App extends Component {
       )
     }
 
+    let newsView = (routerProps) => {
+      return (
+        <div>
+        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={true} />
+        <NewsView {...routerProps}  searchCallback={this.search} handleFavorites={this.handleFavorites} option={'news'} />
+       </div>
+      )
+    }
 
     let favoritesView = (routerProps) => {
       console.log(this.state.favoriteCards);
@@ -309,7 +318,7 @@ class App extends Component {
 
       return (
         <div>
-          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
+          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={true} />
           <Favorites {...routerProps} title={'Favorites'} subtitle={'Here are your favorites'} objs={favoriteObjects} handleFavorites={this.handleFavorites} favFlag={true} />
         </div>
       )
@@ -331,6 +340,7 @@ class App extends Component {
           <Route path='/movies' render={moviesView} />
           <Route path='/books' render={booksView} />
           <Route path='/favorites' render={favoritesView} />
+          <Route path='/:media/:title/news' render={newsView} />
           <Redirect to='/' />
         </Switch>
       </div>

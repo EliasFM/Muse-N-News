@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Redirect} from 'react-router-dom';
 import {
   Card,
   CardText,
@@ -12,6 +13,8 @@ class ContentCard extends Component {
   constructor(props) {
     super(props);
     this.handleFavorites = this.handleFavorites.bind(this);
+    this.state = {redirect: false};
+    this.handleNews = this.handleNews.bind(this);
   }
 
   // Each card has a favorites button
@@ -20,10 +23,14 @@ class ContentCard extends Component {
     this.props.handleFavorites(this.props.obj);
   }
 
+  handleNews() {
+    this.setState({redirect: true});
+  }
+
   render() {
     let obj = this.props.obj;
     let card;
-
+    let newsButton = <Button color='btn' onClick={this.handleNews}>See Related News</Button>
     // If a card has been favorited, change its button view
     let button = <Button color='btn btn-success' onClick={this.handleFavorites}>Add to favorites</Button>;
     if (obj.isFavorite) {
@@ -49,6 +56,7 @@ class ContentCard extends Component {
                 </cite>
               </CardText>
               {button}
+              {newsButton}
             </div>
           </CardBody>
         </Card>
@@ -74,6 +82,7 @@ class ContentCard extends Component {
               </CardText>
               <CardText>Description: {obj.description}</CardText>
               {button}
+              {newsButton}
             </div>
           </CardBody>
         </Card>
@@ -94,10 +103,15 @@ class ContentCard extends Component {
                 <CardText>Description: {obj.overview}</CardText>
                 <CardText>Rating: {obj.voteAverage}</CardText>
                 {button}
+                {newsButton}
               </div>
             </CardBody>
           </Card>
       )
+    }
+    if(this.state.redirect) {
+      let path = '/' + obj.mediaType + '/' + obj.title + '/news';
+      return <Redirect push to={path} />;
     }
     return (
       <div className='col-lg-4 col-md-6 col-xs-3 d-flex'>
