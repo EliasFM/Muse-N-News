@@ -63,7 +63,6 @@ class NavForm extends Component {
         aria-hidden='true' />
     }
     let search = '';
-    console.log(this.props.isMain);
     if (this.props.isMain){
       search = (<div className="form-row">
       <div className="col">
