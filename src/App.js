@@ -295,11 +295,6 @@ class App extends Component {
       modal = <ErrorPopup showModal={this.state.showModal} closeModalCallback={this.closeModal} error={this.state.modalError} />
     }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> c908246ad43cff5868204bc3f85094b1d4713d3e
     return (
       <div>
         {modal}
