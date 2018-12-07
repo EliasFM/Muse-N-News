@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import _ from 'lodash';
 import firebase from 'firebase/app';
-import { Alert } from 'reactstrap';
 
 // User-defined files
 import { FixedNavBar } from './components/navbars/Navbars';
@@ -89,7 +88,6 @@ class App extends Component {
       return;
     }
     let url;
-    //option = this.state.currentTab;
     if (option === 'song' || option === 'audiobook') {
       url = `https://itunes.apple.com/search?entity=${option}&term=${term}&limit=50`;
     } else {
@@ -119,28 +117,16 @@ class App extends Component {
 
   // This adds and removes from the favorites state, which renders the favorites cards
   handleFavorites = (obj) => {
-    let entityId = obj.id;
     let entityType = obj.mediaType;
-    console.log(entityId);
-    console.log(entityType);
-    console.log(this.state.favoriteCards);
-
     let cards = this.state.musicCards;
     if (entityType === 'audiobook') {
       cards = this.state.bookCards;
     } else if (entityType === 'movie') {
       cards = this.state.movieCards;
     }
-    let rawDataObject = _.find(cards, (cardObj) => {
-      return obj.id === cardObj.trackId || obj.id === cardObj.collectionId || obj.id === cardObj.id;
-    });
-    console.log(cards);
-    console.log(rawDataObject);
-    console.log(obj);
 
     if (!obj.isFavorite) {
       obj.isFavorite = true;
-      //rawDataObject.isFavorite = true;
       // Push to Firebase
       firebase.database().ref(`favorites/${this.state.user.uid}`).push(obj);
       this.setState({ showAlert: true });
@@ -152,42 +138,9 @@ class App extends Component {
       }, 3000);
     } else {
       obj.isFavorite = false;
-
-      // TODO: This does not toggle off lol. There's no FirebaseId here. It only works in the favorites itself
-      //rawDataObject.isFavorite = false;
-      // Remove from Firebase
-      console.log(`favorites/${obj.firebaseId}`);
       let specificFavRef = firebase.database().ref(`favorites/${this.state.user.uid}/${obj.firebaseId}`);
       specificFavRef.set(null);
     }
-
-    // Remove raw object and show a message
-
-
-    /*
-    // Push favorites into the favorites state
-    if (!entity.isFavorite) {
-      entity.isFavorite = true;
-      this.state.favoriteCards.push(entity);
-    } else { // Remove from favorites
-      entity.isFavorite = false;
-      this.setState((currentState) => {
-        _.remove(currentState.favoriteCards, (obj) => {
-          return obj.trackId === entityId || obj.collectionId === entityId || obj.id === entityId;
-        });
-        let state = {
-          favoriteCards: currentState.favoriteCards
-        };
-        return state;
-      });
-    }
-    this.setState((currentState) => {
-      let state = {
-        currentCards: currentState.currentCards
-      };
-      return state;
-    });
-    */
   }
 
   // Tells the state which tab we're currently in
@@ -250,16 +203,6 @@ class App extends Component {
 
 
   render() {
-    // TODO: Fix the logic for showing the loader if user is logged in
-    /*
-    if (this.state.loading) {
-      return (
-        <div className="text-center">
-          <i className="fa fa-spinner fa-spin fa-3x" aria-label="Connecting..."></i>
-        </div>
-      );
-    }
-    */
 
     // Check if user is logged in. If not, show them the sign up form
     if (!this.state.user) {
@@ -314,7 +257,6 @@ class App extends Component {
     }
 
     let favoritesView = (routerProps) => {
-      console.log(this.state.favoriteCards);
       let favoriteObjects;
       if (this.state.favoriteCards) {
         favoriteObjects = Object.keys(this.state.favoriteCards);
@@ -324,7 +266,6 @@ class App extends Component {
           return fav;
         });
       }
-      console.log(favoriteObjects);
       // When objects get deleted in Firebase, it will set the state to null, and that
       // will cause some rendering issues, so we set it to an empty array.
       if (favoriteObjects === null || favoriteObjects === undefined) {
