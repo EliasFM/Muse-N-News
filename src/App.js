@@ -14,6 +14,7 @@ import { Movies } from './views/Movies';
 import { NewsView } from './views/Articles';
 import SignUpView from './views/SignUpView';
 import { ErrorPopup } from './components/modals/Popups';
+import {About} from './views/About';
 
 class App extends Component {
   constructor(props) {
@@ -324,11 +325,20 @@ class App extends Component {
       )
     }
 
+    let aboutView = (routerProps) => {
+      return(
+        <div>
+          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
+          <About {...routerProps} title={'About Us'} subtitle={'Get to know more about us'}/>
+        </div>
+      );
+    }
     // Show an error when api call fails
     let modal;
     if (this.state.showModal) {
       modal = <ErrorPopup showModal={this.state.showModal} closeModalCallback={this.closeModal} error={this.state.modalError} />
     }
+
 
 
     return (
@@ -341,6 +351,7 @@ class App extends Component {
           <Route path='/books' render={booksView} />
           <Route path='/favorites' render={favoritesView} />
           <Route path='/:media/:title/news' render={newsView} />
+          <Route path='/about' render={aboutView} />
           <Redirect to='/' />
         </Switch>
       </div>
