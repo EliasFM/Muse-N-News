@@ -32,8 +32,6 @@ class Movies extends Component {
     }));
   }
 
-
-
   filterGenre(id) {
     let url = `https://api.themoviedb.org/3/discover/movie?api_key=06281c636bf07bf7ba505c2c83932760&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=${id}`;
     this.setState({ isLoading: true });
@@ -55,7 +53,6 @@ class Movies extends Component {
     } else {
       cards = <CardList objs={this.state.movies} handleFavorites={this.props.handleFavorites} />;
     }
-
 
     return (
       <div>

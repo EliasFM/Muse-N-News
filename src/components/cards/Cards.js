@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase from 'firebase/app';
+import { Alert } from 'reactstrap';
 import { SongObject } from '../../models/SongObject';
 import { AudioBookObject } from '../../models/AudioBookObject';
 import { MovieObject } from '../../models/MovieObject';
@@ -17,11 +17,22 @@ class CardView extends Component {
   }
 
   render() {
+    let alert;
+    if (this.props.showAlert) {
+      alert = (
+        <div id="alert-message">
+          <Alert id="inner-message" color='success'>
+            Added to favorites!
+          </Alert>
+        </div>
+      )
+    }
     return (
       <div>
         <Header title={this.props.title} subtitle={this.props.subtitle} />
         <div id='main-content'>
           <div id='content'>
+            {alert}
             <CardList objs={this.props.objs} handleFavorites={this.props.handleFavorites} favFlag={this.props.favFlag} />
           </div>
         </div>

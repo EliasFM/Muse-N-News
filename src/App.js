@@ -30,7 +30,8 @@ class App extends Component {
       favoriteCards: [],
       homeMovies: [],
       currentTab: 'home',
-      showModal: false
+      showModal: false,
+      showAlert: false
     };
   }
 
@@ -72,7 +73,6 @@ class App extends Component {
     });
   }
 
-
   // Unregister the auth listener when component unmounts
   componentWillUnmount() {
     this.authUnregFunc();
@@ -82,10 +82,13 @@ class App extends Component {
   // This handles searching and sets the right card states to re-render cards
   search = (option, term) => {
     if (term === '') {
-      // TODO: (stage 4) show a modal with an error message
+      this.setState({
+        showModal: true,
+        modalError: 'Search cannot be empty. Please try again'
+      });
+      return;
     }
     let url;
-    //option = this.state.currentTab;
     if (option === 'song' || option === 'audiobook') {
       url = `https://itunes.apple.com/search?entity=${option}&term=${term}&limit=50`;
     } else {
@@ -100,7 +103,7 @@ class App extends Component {
       } else if (option === 'audiobook') {
         this.setState({ bookCards: data.results });
       } else {
-        this.setState({ movieCards: data.results }); 
+        this.setState({ movieCards: data.results });
       }
     }).catch((err) => {
       console.log(`Error: ${err}`);
@@ -115,65 +118,30 @@ class App extends Component {
 
   // This adds and removes from the favorites state, which renders the favorites cards
   handleFavorites = (obj) => {
-    let entityId = obj.id;
     let entityType = obj.mediaType;
-    console.log(entityId);
-    console.log(entityType);
-    console.log(this.state.favoriteCards);
-
     let cards = this.state.musicCards;
     if (entityType === 'audiobook') {
       cards = this.state.bookCards;
     } else if (entityType === 'movie') {
       cards = this.state.movieCards;
     }
-    let rawDataObject = _.find(cards, (obj) => {
-      return obj.id === entityId;
-    });
-    console.log(rawDataObject);
-    console.log(obj);
 
     if (!obj.isFavorite) {
       obj.isFavorite = true;
-      //rawDataObject.isFavorite = true;
       // Push to Firebase
       firebase.database().ref(`favorites/${this.state.user.uid}`).push(obj);
+      this.setState({ showAlert: true });
+      _.remove(cards, cardObj => {
+        return obj.id === cardObj.trackId || obj.id === cardObj.collectionId || obj.id === cardObj.id;
+      });
+      setTimeout(() => {
+        this.setState({ showAlert: false });
+      }, 3000);
     } else {
       obj.isFavorite = false;
-
-      // TODO: This does not toggle off lol. There's no FirebaseId here. It only works in the favorites itself
-      //rawDataObject.isFavorite = false;
-      // Remove from Firebase
-      console.log(`favorites/${obj.firebaseId}`);
       let specificFavRef = firebase.database().ref(`favorites/${this.state.user.uid}/${obj.firebaseId}`);
       specificFavRef.set(null);
     }
-
-
-    /*
-    // Push favorites into the favorites state
-    if (!entity.isFavorite) {
-      entity.isFavorite = true;
-      this.state.favoriteCards.push(entity);
-    } else { // Remove from favorites
-      entity.isFavorite = false;
-      this.setState((currentState) => {
-        _.remove(currentState.favoriteCards, (obj) => {
-          return obj.trackId === entityId || obj.collectionId === entityId || obj.id === entityId;
-        });
-        let state = {
-          favoriteCards: currentState.favoriteCards
-        };
-        return state;
-      });
-    }
-    this.setState((currentState) => {
-      let state = {
-        currentCards: currentState.currentCards
-      };
-      return state;
-    });
-    */
   }
 
   // Tells the state which tab we're currently in
@@ -236,16 +204,6 @@ class App extends Component {
 
 
   render() {
-    // TODO: Fix the logic for showing the loader if user is logged in
-    /*
-    if (this.state.loading) {
-      return (
-        <div className="text-center">
-          <i className="fa fa-spinner fa-spin fa-3x" aria-label="Connecting..."></i>
-        </div>
-      );
-    }
-    */
 
     // Check if user is logged in. If not, show them the sign up form
     if (!this.state.user) {
@@ -266,7 +224,7 @@ class App extends Component {
       return (
         <div>
           <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
-          <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'song'} />
+          <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'song'} showAlert={this.state.showAlert}/>
         </div>
       )
     }
@@ -275,7 +233,7 @@ class App extends Component {
       return (
         <div>
           <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
-          <Movies {...routerProps} title={'Movies'} subtitle={'Find the movie you\'ve been looking for.'} objs={this.state.movieCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'movie'} />
+          <Movies {...routerProps} title={'Movies'} subtitle={'Find the movie you\'ve been looking for.'} objs={this.state.movieCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'movie'} showAlert={this.state.showAlert} />
         </div>
       )
     }
@@ -285,7 +243,7 @@ class App extends Component {
       return (
         <div>
           <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
-          <CardView {...routerProps} title={'Books'} subtitle={'Listen to your favorite book series through audiobooks.'} objs={this.state.bookCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'audiobook'} />
+          <CardView {...routerProps} title={'Books'} subtitle={'Listen to your favorite book series through audiobooks.'} objs={this.state.bookCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'audiobook'} showAlert={this.state.showAlert} />
         </div>
       )
     }
@@ -293,14 +251,13 @@ class App extends Component {
     let newsView = (routerProps) => {
       return (
         <div>
-        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={true} />
-        <NewsView {...routerProps}  searchCallback={this.search} handleFavorites={this.handleFavorites} option={'news'} />
-       </div>
+          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={true} />
+          <NewsView {...routerProps} searchCallback={this.search} handleFavorites={this.handleFavorites} option={'news'} />
+        </div>
       )
     }
 
     let favoritesView = (routerProps) => {
-      console.log(this.state.favoriteCards);
       let favoriteObjects;
       if (this.state.favoriteCards) {
         favoriteObjects = Object.keys(this.state.favoriteCards);
@@ -310,7 +267,6 @@ class App extends Component {
           return fav;
         });
       }
-      console.log(favoriteObjects);
       // When objects get deleted in Firebase, it will set the state to null, and that
       // will cause some rendering issues, so we set it to an empty array.
       if (favoriteObjects === null || favoriteObjects === undefined) {
@@ -339,8 +295,11 @@ class App extends Component {
       modal = <ErrorPopup showModal={this.state.showModal} closeModalCallback={this.closeModal} error={this.state.modalError} />
     }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> c908246ad43cff5868204bc3f85094b1d4713d3e
     return (
       <div>
         {modal}
