@@ -73,7 +73,6 @@ class App extends Component {
     });
   }
 
-
   // Unregister the auth listener when component unmounts
   componentWillUnmount() {
     this.authUnregFunc();
@@ -83,7 +82,11 @@ class App extends Component {
   // This handles searching and sets the right card states to re-render cards
   search = (option, term) => {
     if (term === '') {
-      // TODO: (stage 4) show a modal with an error message
+      this.setState({
+        showModal: true,
+        modalError: 'Search cannot be empty. Please try again'
+      });
+      return;
     }
     let url;
     //option = this.state.currentTab;
