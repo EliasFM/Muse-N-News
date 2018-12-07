@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import _ from 'lodash';
 import firebase from 'firebase/app';
+import { Alert } from 'reactstrap';
 
 // User-defined files
 import { FixedNavBar } from './components/navbars/Navbars';
@@ -29,7 +30,8 @@ class App extends Component {
       favoriteCards: [],
       homeMovies: [],
       currentTab: 'home',
-      showModal: false
+      showModal: false,
+      showAlert: false
     };
   }
 
@@ -99,7 +101,7 @@ class App extends Component {
       } else if (option === 'audiobook') {
         this.setState({ bookCards: data.results });
       } else {
-        this.setState({ movieCards: data.results }); 
+        this.setState({ movieCards: data.results });
       }
     }).catch((err) => {
       console.log(`Error: ${err}`);
@@ -126,9 +128,10 @@ class App extends Component {
     } else if (entityType === 'movie') {
       cards = this.state.movieCards;
     }
-    let rawDataObject = _.find(cards, (obj) => {
-      return obj.id === entityId;
+    let rawDataObject = _.find(cards, (cardObj) => {
+      return obj.id === cardObj.trackId || obj.id === cardObj.collectionId || obj.id === cardObj.id;
     });
+    console.log(cards);
     console.log(rawDataObject);
     console.log(obj);
 
@@ -137,6 +140,13 @@ class App extends Component {
       //rawDataObject.isFavorite = true;
       // Push to Firebase
       firebase.database().ref(`favorites/${this.state.user.uid}`).push(obj);
+      this.setState({ showAlert: true });
+      _.remove(cards, cardObj => {
+        return obj.id === cardObj.trackId || obj.id === cardObj.collectionId || obj.id === cardObj.id;
+      });
+      setTimeout(() => {
+        this.setState({ showAlert: false });
+      }, 3000);
     } else {
       obj.isFavorite = false;
 
@@ -147,6 +157,8 @@ class App extends Component {
       let specificFavRef = firebase.database().ref(`favorites/${this.state.user.uid}/${obj.firebaseId}`);
       specificFavRef.set(null);
     }
+
+    // Remove raw object and show a message
 
 
     /*
@@ -265,7 +277,7 @@ class App extends Component {
       return (
         <div>
           <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
-          <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'song'} />
+          <CardView {...routerProps} title={'Music'} subtitle={'Find your favorite songs, artists, and bands.'} objs={this.state.musicCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'song'} showAlert={this.state.showAlert}/>
         </div>
       )
     }
@@ -274,7 +286,7 @@ class App extends Component {
       return (
         <div>
           <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
-          <Movies {...routerProps} title={'Movies'} subtitle={'Find the movie you\'ve been looking for.'} objs={this.state.movieCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'movie'} />
+          <Movies {...routerProps} title={'Movies'} subtitle={'Find the movie you\'ve been looking for.'} objs={this.state.movieCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'movie'} showAlert={this.state.showAlert} />
         </div>
       )
     }
@@ -284,7 +296,7 @@ class App extends Component {
       return (
         <div>
           <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
-          <CardView {...routerProps} title={'Books'} subtitle={'Listen to your favorite book series through audiobooks.'} objs={this.state.bookCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'audiobook'} />
+          <CardView {...routerProps} title={'Books'} subtitle={'Listen to your favorite book series through audiobooks.'} objs={this.state.bookCards} handleFavorites={this.handleFavorites} searchCallback={this.search} option={'audiobook'} showAlert={this.state.showAlert} />
         </div>
       )
     }
@@ -292,9 +304,9 @@ class App extends Component {
     let newsView = (routerProps) => {
       return (
         <div>
-        <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={true} />
-        <NewsView {...routerProps}  searchCallback={this.search} handleFavorites={this.handleFavorites} option={'news'} />
-       </div>
+          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={true} />
+          <NewsView {...routerProps} searchCallback={this.search} handleFavorites={this.handleFavorites} option={'news'} />
+        </div>
       )
     }
 
@@ -329,7 +341,6 @@ class App extends Component {
     if (this.state.showModal) {
       modal = <ErrorPopup showModal={this.state.showModal} closeModalCallback={this.closeModal} error={this.state.modalError} />
     }
-
 
     return (
       <div>
