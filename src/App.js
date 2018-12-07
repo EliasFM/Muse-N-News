@@ -284,7 +284,7 @@ class App extends Component {
     let aboutView = (routerProps) => {
       return(
         <div>
-          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={false} />
+          <FixedNavBar searchCallback={this.search} handleTab={this.handleTab} isLoading={this.state.isLoading} currentTab={this.state.currentTab} currentUser={this.state.user} handleSignOut={this.handleSignOut} isMain={true} />
           <About {...routerProps} title={'About Us'} subtitle={'Get to know more about us'}/>
         </div>
       );
