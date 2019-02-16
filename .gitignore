@@ -16,6 +16,9 @@ Thumbs.db# See https://help.github.com/articles/ignoring-files/ for more about i
 # production
 /build
 
+# api keys for firebase
+/src/config.json
+
 # misc
 .DS_Store
 .env.local

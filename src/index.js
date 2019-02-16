@@ -6,16 +6,10 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import * as config from './config.json';
 
 // Initialize Firebase
-var config = {
-  apiKey: "AIzaSyARIuEBgRNU3mxAVywagOALgpxHioELz1c",
-  authDomain: "final-project-b9c84.firebaseapp.com",
-  databaseURL: "https://final-project-b9c84.firebaseio.com",
-  projectId: "final-project-b9c84",
-  storageBucket: "final-project-b9c84.appspot.com",
-  messagingSenderId: "141207566970"
-};
+
 firebase.initializeApp(config);
 
 ReactDOM.render(
