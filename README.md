@@ -6,8 +6,8 @@ The site can be viewed [here](https://eliasfm.github.io/Muse-N-News/).
 
 ## TODO
 - For sure
-    - Add clicks to the cards to have relevant articles about them (main functionality)
-    - Move favorites under user and save their favorites to firebase
+    - Add clicks to the cards to have relevant articles about them (main functionality)[Done]
+    - Move favorites under user and save their favorites to firebase [Done]
     - Edit 'enter key' for search so that it searches and doesn't refresh the page [Done]
     - Remove search and search button from home page (stage 4 - together) [Done]
 - If possible
