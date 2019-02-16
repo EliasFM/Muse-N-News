@@ -9,12 +9,12 @@ import 'firebase/database';
 
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyDx1OjihR06EJnNRGqlFfjhEgITBl-j5z0",
-  authDomain: "info340-final-muse.firebaseapp.com",
-  databaseURL: "https://info340-final-muse.firebaseio.com",
-  projectId: "info340-final-muse",
-  storageBucket: "info340-final-muse.appspot.com",
-  messagingSenderId: "858085284392"
+  apiKey: "AIzaSyARIuEBgRNU3mxAVywagOALgpxHioELz1c",
+  authDomain: "final-project-b9c84.firebaseapp.com",
+  databaseURL: "https://final-project-b9c84.firebaseio.com",
+  projectId: "final-project-b9c84",
+  storageBucket: "final-project-b9c84.appspot.com",
+  messagingSenderId: "141207566970"
 };
 firebase.initializeApp(config);
 
