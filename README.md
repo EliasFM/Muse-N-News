@@ -2,7 +2,7 @@
 
 This repository contains code for an interactive web app, created for the _Client-Side Web Development_ course at the UW iSchool.
 
-The site can be viewed [here](https://info340c-au18.github.io/stage-0-topic-proposal-yulongtan/).
+The site can be viewed [here](https://eliasfm.github.io/Muse-N-News/).
 
 ## TODO
 - For sure
