@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/stage-0-topic-proposal-yulongtan/precache-manifest.f3c9c28d220ed4eabf0a8f62dbf40174.js"
+  "/Muse-N-News/precache-manifest.2cdaf0ed4b16e85a5c0b501b7955c2ec.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/stage-0-topic-proposal-yulongtan/index.html", {
+workbox.routing.registerNavigationRoute("/Muse-N-News/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
