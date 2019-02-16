@@ -23,4 +23,4 @@ This web app uses the iTunes API to let users query media based on a keyword. It
 Users can use the search bar to look for their media. They can use the `type` dropdown to look for the specific kind of media. Additionally, users can also add favorites, which can be viewed in the `favorites` tab.
 
 #### Contributions
-This website was created by Yulong Tan & Katie Clark.
+This website was created by Elias Mendel, Yulong Tan, Katie Clark, and Anushka Raheja.
